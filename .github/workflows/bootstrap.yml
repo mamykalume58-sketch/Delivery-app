@@ -1,0 +1,26 @@
+name: Bootstrap Flutter Project
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Créer le projet Flutter
+        run: |
+          flutter create --org com.davidstore --project-name davidstore_livreur .
+
+      - name: Committer et pousser le squelette
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Bootstrap: squelette Flutter initial (flutter create)"
+          git push
