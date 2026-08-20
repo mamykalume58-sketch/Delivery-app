@@ -27,47 +27,52 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: SafeArea(
         child: Column(
           children: [
-            _buildAppBar(),
+            _buildAppBar(colors),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildProfileCard(),
+                    _buildProfileCard(colors),
                     const SizedBox(height: 16),
-                    _buildStatsCard(),
+                    _buildStatsCard(colors),
                     const SizedBox(height: 20),
                     _buildMenuCard(
+                      colors: colors,
                       icon: Icons.inventory_2_rounded,
-                      iconBg: AppColors.interface.withValues(alpha: 0.1),
-                      iconColor: AppColors.interface,
+                      iconBg: colors.interface.withValues(alpha: 0.1),
+                      iconColor: colors.interface,
                       title: 'Nouvelle livraison',
                       subtitle: '$newDeliveriesAvailable disponible(s)',
                     ),
                     const SizedBox(height: 12),
                     _buildMenuCard(
+                      colors: colors,
                       icon: Icons.local_shipping_rounded,
-                      iconBg: AppColors.gold.withValues(alpha: 0.15),
-                      iconColor: AppColors.gold,
+                      iconBg: colors.gold.withValues(alpha: 0.15),
+                      iconColor: colors.gold,
                       title: 'En cours',
                       subtitle: '$inProgressDeliveries livraison(s)',
                     ),
                     const SizedBox(height: 12),
                     _buildMenuCard(
+                      colors: colors,
                       icon: Icons.folder_rounded,
-                      iconBg: AppColors.lightGrey,
-                      iconColor: AppColors.textGrey,
+                      iconBg: colors.divider,
+                      iconColor: colors.textGrey,
                       title: 'Historique',
                       subtitle: 'Voir vos livraisons',
                     ),
                     const SizedBox(height: 20),
-                    _buildStatusCard(),
+                    _buildStatusCard(colors),
                   ],
                 ),
               ),
@@ -84,34 +89,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(AppColors colors) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(Icons.menu_rounded, color: AppColors.primary),
-          const Text(
+          Icon(Icons.menu_rounded, color: colors.primary),
+          Text(
             'Accueil',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: AppColors.primary,
+              color: colors.primary,
             ),
           ),
           Stack(
             clipBehavior: Clip.none,
             children: [
-              const Icon(Icons.notifications_none_rounded,
-                  color: AppColors.primary),
+              Icon(Icons.notifications_none_rounded, color: colors.primary),
               Positioned(
                 right: -2,
                 top: -2,
                 child: Container(
                   width: 8,
                   height: 8,
-                  decoration: const BoxDecoration(
-                    color: AppColors.error,
+                  decoration: BoxDecoration(
+                    color: colors.error,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -123,11 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(AppColors colors) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -139,10 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 26,
-            backgroundColor: AppColors.lightGrey,
-            child: Icon(Icons.person, color: AppColors.textGrey, size: 28),
+            backgroundColor: colors.divider,
+            child: Icon(Icons.person, color: colors.textGrey, size: 28),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -151,10 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   driverName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
+                    color: colors.primary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -164,19 +168,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: isOnline
-                            ? AppColors.success
-                            : AppColors.textGrey,
+                        color: isOnline ? colors.success : colors.textGrey,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
                       isOnline ? 'En ligne' : 'Hors ligne',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textGrey,
-                      ),
+                      style: TextStyle(fontSize: 13, color: colors.textGrey),
                     ),
                   ],
                 ),
@@ -185,14 +184,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Row(
             children: [
-              const Icon(Icons.star_rounded, color: AppColors.gold, size: 18),
+              Icon(Icons.star_rounded, color: colors.gold, size: 18),
               const SizedBox(width: 2),
               Text(
                 '$rating ($reviewCount)',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: colors.primary,
                 ),
               ),
             ],
@@ -202,13 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatsCard() {
+  Widget _buildStatsCard(AppColors colors) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.interface],
+        gradient: LinearGradient(
+          colors: [colors.primary, colors.interface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -257,10 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 2),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
         ],
       ),
@@ -277,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMenuCard({
+    required AppColors colors,
     required IconData icon,
     required Color iconBg,
     required Color iconColor,
@@ -286,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -314,34 +311,31 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    color: colors.primary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textGrey,
-                  ),
+                  style: TextStyle(fontSize: 13, color: colors.textGrey),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.textGrey),
+          Icon(Icons.chevron_right_rounded, color: colors.textGrey),
         ],
       ),
     );
   }
 
-  Widget _buildStatusCard() {
+  Widget _buildStatusCard(AppColors colors) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -357,12 +351,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Statut',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textGrey,
-                ),
+                style: TextStyle(fontSize: 13, color: colors.textGrey),
               ),
               const SizedBox(height: 4),
               Row(
@@ -371,19 +362,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: isAvailable
-                          ? AppColors.success
-                          : AppColors.textGrey,
+                      color: isAvailable ? colors.success : colors.textGrey,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 6),
                   Text(
                     isAvailable ? 'Disponible' : 'Hors ligne',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      color: colors.primary,
                     ),
                   ),
                 ],
@@ -392,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Switch(
             value: isAvailable,
-            activeColor: AppColors.success,
+            activeColor: colors.success,
             onChanged: (value) {
               setState(() {
                 isAvailable = value;

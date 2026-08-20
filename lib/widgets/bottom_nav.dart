@@ -23,9 +23,11 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -43,8 +45,7 @@ class BottomNav extends StatelessWidget {
             children: List.generate(_items.length, (index) {
               final item = _items[index];
               final bool active = index == currentIndex;
-              final Color color =
-                  active ? AppColors.interface : AppColors.textGrey;
+              final Color color = active ? colors.interface : colors.textGrey;
 
               return Expanded(
                 child: InkWell(
