@@ -12,7 +12,7 @@ class DavidStoreDriverApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DavidSTORE Livreur',
+      title: 'Delivery App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
