@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
@@ -190,10 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
           CircleAvatar(
             radius: 26,
             backgroundColor: colors.divider,
-            backgroundImage:
-                (driver.photoUrl != null && driver.photoUrl!.isNotEmpty)
-                    ? NetworkImage(driver.photoUrl!)
-                    : null,
+            backgroundImage: _buildProfileImage(driver.photoUrl),
             child: (driver.photoUrl == null || driver.photoUrl!.isEmpty)
                 ? Icon(Icons.person, color: colors.textGrey, size: 28)
                 : null,
@@ -457,5 +455,21 @@ class _HomeScreenState extends State<HomeScreen> {
       buffer.write(str[i]);
     }
     return buffer.toString();
+  }
+
+  /// Gère les deux formats de photoUrl possibles : une chaîne base64
+  /// (data:image/...;base64,...) écrite par uploadProfilePhoto, ou une
+  /// vraie URL http/https si ce mode est utilisé un jour.
+  ImageProvider? _buildProfileImage(String? photoUrl) {
+    if (photoUrl == null || photoUrl.isEmpty) return null;
+    if (photoUrl.startsWith('data:image')) {
+      try {
+        final base64Str = photoUrl.split(',').last;
+        return MemoryImage(base64Decode(base64Str));
+      } catch (_) {
+        return null;
+      }
+    }
+    return NetworkImage(photoUrl);
   }
 }
