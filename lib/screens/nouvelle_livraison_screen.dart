@@ -3,6 +3,7 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
+import 'en_cours_screen.dart';
 
 const Map<String, String> _statusLabels = {
   'preparing': 'En préparation',
@@ -120,7 +121,10 @@ class NouvelleLivraisonScreen extends StatelessWidget {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                // TODO: naviguer vers l'écran détail "En cours" une fois construit.
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => EnCoursScreen(order: order)),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: colors.interface,
