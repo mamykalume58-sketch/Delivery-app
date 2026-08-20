@@ -34,6 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final picked = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
+      maxWidth: 800,
+      maxHeight: 800,
     );
     if (picked != null) {
       setState(() => _pickedPhoto = File(picked.path));

@@ -9,6 +9,7 @@ import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../services/driver_service.dart';
 import '../models/order_model.dart';
+import 'arrive_client_screen.dart';
 
 class EnCoursScreen extends StatefulWidget {
   final OrderModel order;
@@ -91,7 +92,10 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
     try {
       await OrderService().updateOrderStatus(widget.order.id, 'out_for_delivery');
       if (!mounted) return;
-      // TODO: naviguer vers l'écran "Arrivé au client" une fois construit.
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => ArriveClientScreen(order: widget.order)),
+      );
     } finally {
       if (mounted) setState(() => _updatingStatus = false);
     }

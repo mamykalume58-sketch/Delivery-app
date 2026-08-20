@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../theme/app_colors.dart';
+import '../models/order_model.dart';
+
+class ArriveClientScreen extends StatelessWidget {
+  final OrderModel order;
+
+  const ArriveClientScreen({super.key, required this.order});
+
+  Future<void> _callClient() async {
+    final url = Uri.parse('tel:${order.clientPhone}');
+    await launchUrl(url);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return Scaffold(
+      backgroundColor: colors.background,
+      appBar: AppBar(
+        backgroundColor: colors.surface,
+        elevation: 0,
+        title: Text(
+          'Commande #${order.orderNumber}',
+          style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17),
+        ),
+        iconTheme: IconThemeData(color: colors.primary),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 90,
+                height: 90,
+                decoration: BoxDecoration(
+                  color: colors.success.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.location_on, color: colors.success, size: 44),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: Text(
+                'Vous êtes arrivé',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.primary),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Center(
+              child: Text(
+                'Vérifiez la commande avec le client avant de procéder à la livraison.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: colors.textGrey),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: colors.divider),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Client', style: TextStyle(fontSize: 12, color: colors.textGrey)),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          order.clientName,
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _callClient,
+                        icon: Icon(Icons.phone, color: colors.success),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text('Adresse', style: TextStyle(fontSize: 12, color: colors.textGrey)),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${order.address}, ${order.city}',
+                    style: TextStyle(fontSize: 14, color: colors.primary),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // TODO: naviguer vers l'écran "Vérification" (QR + PIN) une fois construit.
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colors.interface,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text(
+                  'Vérifier la commande',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

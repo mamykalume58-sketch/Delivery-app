@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
 import 'dart:io';
 
 /// Gère le document livreurs/{uid} — MÊME collection Firestore que le
@@ -8,7 +8,6 @@ import 'dart:io';
 /// disponible | en_livraison | hors_ligne (rien d'autre).
 class DriverService {
   final _livreurs = FirebaseFirestore.instance.collection('livreurs');
-  final _storage = FirebaseStorage.instance;
 
   /// Crée le profil livreur juste après l'inscription Firebase Auth.
   /// Utilise l'uid comme ID de document (contrairement à addLivreur côté
@@ -40,11 +39,16 @@ class DriverService {
     });
   }
 
-  /// Upload la photo de profil vers Firebase Storage et retourne son URL.
+  /// Convertit la photo de profil en base64 et la retourne directement.
+  /// Firebase Storage n'est pas disponible sur le plan Spark (Blaze requis).
+  /// Même contournement que My-DavidSTORE : stockage base64 dans le document
+  /// Firestore lui-même plutôt que dans Storage. La photo est compressée et
+  /// redimensionnée en amont (voir register_screen.dart, maxWidth/maxHeight)
+  /// pour rester largement sous la limite de 1 Mo par document Firestore.
   Future<String> uploadProfilePhoto(String uid, File file) async {
-    final ref = _storage.ref().child('livreurs/$uid/profile.jpg');
-    await ref.putFile(file);
-    return await ref.getDownloadURL();
+    final bytes = await file.readAsBytes();
+    final base64Str = base64Encode(bytes);
+    return 'data:image/jpeg;base64,$base64Str';
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> watchDriver(String uid) {
