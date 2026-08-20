@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "27947559228",
+    "project_id": "davidstore-757d8",
+    "storage_bucket": "davidstore-757d8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27947559228:android:6262849591bd6827911639",
+        "android_client_info": {
+          "package_name": "com.davidstore.davidstore_livreur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27947559228-36j1vtt3pinki041dtpfar6oiptlfhlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACjuaBKzSJESZv3lUTz-L7hjd9swC5f9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27947559228-36j1vtt3pinki041dtpfar6oiptlfhlm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27947559228-1l6h6j2u0n8tp4ds9v0v66jjn0ql6hqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davidstore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27947559228:android:f8897ae1458bfb39911639",
+        "android_client_info": {
+          "package_name": "com.example.davidstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27947559228-7ilriij5gtkkb7pqvjdfl6bdc17hcm1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.davidstore",
+            "certificate_hash": "5c71d1cb94418824a529a21c177578950f5af789"
+          }
+        },
+        {
+          "client_id": "27947559228-s969od8n4jadpemvedt2nvlushghsbv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.davidstore",
+            "certificate_hash": "d48d53801ddab2d2acff50b6d9ce16c74acc169f"
+          }
+        },
+        {
+          "client_id": "27947559228-36j1vtt3pinki041dtpfar6oiptlfhlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACjuaBKzSJESZv3lUTz-L7hjd9swC5f9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27947559228-36j1vtt3pinki041dtpfar6oiptlfhlm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "27947559228-1l6h6j2u0n8tp4ds9v0v66jjn0ql6hqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davidstore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
