@@ -25,6 +25,7 @@ class DriverService {
       'plateNumber': '',
       'rating': 0,
       'earnings': 0,
+      'reviewCount': 0,
       'currentOrderId': null,
       'location': null,
       'createdAt': FieldValue.serverTimestamp(),

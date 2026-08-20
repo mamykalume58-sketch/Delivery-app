@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../widgets/bottom_nav.dart';
+import '../services/auth_service.dart';
+import '../services/driver_service.dart';
+import '../models/driver_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,82 +14,109 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Données statiques temporaires (maquette) — à connecter à Firestore plus tard
-  final String driverName = 'Jean K.';
-  final bool isOnline = true;
-  final double rating = 4.8;
-  final int reviewCount = 124;
+  final _authService = AuthService();
+  final _driverService = DriverService();
 
-  final int todayDeliveries = 8;
-  final int inProgress = 2;
-  final int todayEarnings = 32000;
-
-  final int newDeliveriesAvailable = 2;
-  final int inProgressDeliveries = 2;
-
-  bool isAvailable = true;
+  // Compteurs de livraisons/gains du jour : à brancher une fois le champ
+  // driverId ajouté aux commandes (en attente de validation avec le
+  // dashboard admin). En attendant, pas de chiffres inventés — tout à 0.
+  final int todayDeliveries = 0;
+  final int inProgress = 0;
+  final int todayEarnings = 0;
+  final int newDeliveriesAvailable = 0;
+  final int inProgressDeliveries = 0;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final uid = _authService.currentUser?.uid;
 
-    return Scaffold(
-      backgroundColor: colors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildAppBar(colors),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildProfileCard(colors),
-                    const SizedBox(height: 16),
-                    _buildStatsCard(colors),
-                    const SizedBox(height: 20),
-                    _buildMenuCard(
-                      colors: colors,
-                      icon: Icons.inventory_2_rounded,
-                      iconBg: colors.interface.withValues(alpha: 0.1),
-                      iconColor: colors.interface,
-                      title: 'Nouvelle livraison',
-                      subtitle: '$newDeliveriesAvailable disponible(s)',
+    if (uid == null) {
+      // Ne devrait pas arriver (splash redirige vers Login si déconnecté),
+      // filet de sécurité seulement.
+      return Scaffold(
+        backgroundColor: colors.background,
+        body: const Center(child: Text('Session expirée. Reconnectez-vous.')),
+      );
+    }
+
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: _driverService.watchDriver(uid),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const Center(child: Text('Profil livreur introuvable.')),
+          );
+        }
+
+        final driver = DriverModel.fromDoc(snapshot.data!);
+
+        return Scaffold(
+          backgroundColor: colors.background,
+          body: SafeArea(
+            child: Column(
+              children: [
+                _buildAppBar(colors),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildProfileCard(colors, driver),
+                        const SizedBox(height: 16),
+                        _buildStatsCard(colors),
+                        const SizedBox(height: 20),
+                        _buildMenuCard(
+                          colors: colors,
+                          icon: Icons.inventory_2_rounded,
+                          iconBg: colors.interface.withValues(alpha: 0.1),
+                          iconColor: colors.interface,
+                          title: 'Nouvelle livraison',
+                          subtitle: '$newDeliveriesAvailable disponible(s)',
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuCard(
+                          colors: colors,
+                          icon: Icons.local_shipping_rounded,
+                          iconBg: colors.gold.withValues(alpha: 0.15),
+                          iconColor: colors.gold,
+                          title: 'En cours',
+                          subtitle: '$inProgressDeliveries livraison(s)',
+                        ),
+                        const SizedBox(height: 12),
+                        _buildMenuCard(
+                          colors: colors,
+                          icon: Icons.folder_rounded,
+                          iconBg: colors.divider,
+                          iconColor: colors.textGrey,
+                          title: 'Historique',
+                          subtitle: 'Voir vos livraisons',
+                        ),
+                        const SizedBox(height: 20),
+                        _buildStatusCard(colors, uid, driver),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    _buildMenuCard(
-                      colors: colors,
-                      icon: Icons.local_shipping_rounded,
-                      iconBg: colors.gold.withValues(alpha: 0.15),
-                      iconColor: colors.gold,
-                      title: 'En cours',
-                      subtitle: '$inProgressDeliveries livraison(s)',
-                    ),
-                    const SizedBox(height: 12),
-                    _buildMenuCard(
-                      colors: colors,
-                      icon: Icons.folder_rounded,
-                      iconBg: colors.divider,
-                      iconColor: colors.textGrey,
-                      title: 'Historique',
-                      subtitle: 'Voir vos livraisons',
-                    ),
-                    const SizedBox(height: 20),
-                    _buildStatusCard(colors),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNav(
-        currentIndex: 0,
-        onTap: (index) {
-          // Navigation entre onglets à brancher plus tard
-        },
-      ),
+          ),
+          bottomNavigationBar: BottomNav(
+            currentIndex: 0,
+            onTap: (index) {
+              // Navigation entre onglets à brancher plus tard
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -127,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildProfileCard(AppColors colors) {
+  Widget _buildProfileCard(AppColors colors, DriverModel driver) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -146,7 +177,13 @@ class _HomeScreenState extends State<HomeScreen> {
           CircleAvatar(
             radius: 26,
             backgroundColor: colors.divider,
-            child: Icon(Icons.person, color: colors.textGrey, size: 28),
+            backgroundImage:
+                (driver.photo != null && driver.photo!.isNotEmpty)
+                    ? NetworkImage(driver.photo!)
+                    : null,
+            child: (driver.photo == null || driver.photo!.isEmpty)
+                ? Icon(Icons.person, color: colors.textGrey, size: 28)
+                : null,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -154,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  driverName,
+                  driver.name,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -168,13 +205,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: isOnline ? colors.success : colors.textGrey,
+                        color:
+                            driver.isAvailable ? colors.success : colors.textGrey,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      isOnline ? 'En ligne' : 'Hors ligne',
+                      driver.isAvailable ? 'En ligne' : 'Hors ligne',
                       style: TextStyle(fontSize: 13, color: colors.textGrey),
                     ),
                   ],
@@ -187,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(Icons.star_rounded, color: colors.gold, size: 18),
               const SizedBox(width: 2),
               Text(
-                '$rating ($reviewCount)',
+                '${driver.rating} (${driver.reviewCount})',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -331,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatusCard(AppColors colors) {
+  Widget _buildStatusCard(AppColors colors, String uid, DriverModel driver) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
@@ -362,13 +400,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: isAvailable ? colors.success : colors.textGrey,
+                      color:
+                          driver.isAvailable ? colors.success : colors.textGrey,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    isAvailable ? 'Disponible' : 'Hors ligne',
+                    driver.isAvailable ? 'Disponible' : 'Hors ligne',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -380,12 +419,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Switch(
-            value: isAvailable,
+            value: driver.isAvailable,
             activeColor: colors.success,
             onChanged: (value) {
-              setState(() {
-                isAvailable = value;
-              });
+              _driverService.updateStatus(uid, value ? 'available' : 'offline');
             },
           ),
         ],
