@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../theme/app_colors.dart';
+import '../services/auth_service.dart';
 import 'home_screen.dart';
+import 'auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,15 +13,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _authService = AuthService();
+
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
-        );
-      }
+      if (!mounted) return;
+      final isLoggedIn = _authService.currentUser != null;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => isLoggedIn ? const HomeScreen() : const LoginScreen(),
+        ),
+      );
     });
   }
 
