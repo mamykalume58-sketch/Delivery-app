@@ -178,10 +178,10 @@ class _HomeScreenState extends State<HomeScreen> {
             radius: 26,
             backgroundColor: colors.divider,
             backgroundImage:
-                (driver.photo != null && driver.photo!.isNotEmpty)
-                    ? NetworkImage(driver.photo!)
+                (driver.photoUrl != null && driver.photoUrl!.isNotEmpty)
+                    ? NetworkImage(driver.photoUrl!)
                     : null,
-            child: (driver.photo == null || driver.photo!.isEmpty)
+            child: (driver.photoUrl == null || driver.photoUrl!.isEmpty)
                 ? Icon(Icons.person, color: colors.textGrey, size: 28)
                 : null,
           ),
@@ -422,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
             value: driver.isAvailable,
             activeColor: colors.success,
             onChanged: (value) {
-              _driverService.updateStatus(uid, value ? 'available' : 'offline');
+              _driverService.updateStatus(uid, value ? 'disponible' : 'hors_ligne');
             },
           ),
         ],

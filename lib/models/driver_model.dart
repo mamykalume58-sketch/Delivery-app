@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Reflète drivers/{uid} — même collection lue par le dashboard admin.
+/// Reflète livreurs/{uid} — même collection Firestore lue par le dashboard
+/// admin (davidstore-admin/src/types/livreur.ts). Statuts autorisés :
+/// disponible | en_livraison | hors_ligne.
 class DriverModel {
   final String name;
   final String phone;
-  final String? photo;
-  final String status; // available | delivering | offline
+  final String? photoUrl;
+  final String status;
   final String vehicle;
   final String plateNumber;
   final double rating;
@@ -16,7 +18,7 @@ class DriverModel {
   const DriverModel({
     required this.name,
     required this.phone,
-    this.photo,
+    this.photoUrl,
     required this.status,
     required this.vehicle,
     required this.plateNumber,
@@ -26,15 +28,15 @@ class DriverModel {
     this.currentOrderId,
   });
 
-  bool get isAvailable => status == 'available';
+  bool get isAvailable => status == 'disponible';
 
   factory DriverModel.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
     return DriverModel(
       name: data['name'] as String? ?? '',
       phone: data['phone'] as String? ?? '',
-      photo: data['photo'] as String?,
-      status: data['status'] as String? ?? 'offline',
+      photoUrl: data['photoUrl'] as String?,
+      status: data['status'] as String? ?? 'hors_ligne',
       vehicle: data['vehicle'] as String? ?? '',
       plateNumber: data['plateNumber'] as String? ?? '',
       rating: (data['rating'] as num?)?.toDouble() ?? 0,
