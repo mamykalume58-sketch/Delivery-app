@@ -5,6 +5,8 @@ import '../widgets/bottom_nav.dart';
 import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../models/driver_model.dart';
+import '../services/order_service.dart';
+import 'nouvelle_livraison_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _authService = AuthService();
   final _driverService = DriverService();
+  final _orderService = OrderService();
 
   // Compteurs de livraisons/gains du jour : à brancher une fois le champ
   // driverId ajouté aux commandes (en attente de validation avec le
@@ -74,13 +77,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 16),
                         _buildStatsCard(colors),
                         const SizedBox(height: 20),
-                        _buildMenuCard(
-                          colors: colors,
-                          icon: Icons.inventory_2_rounded,
-                          iconBg: colors.interface.withValues(alpha: 0.1),
-                          iconColor: colors.interface,
-                          title: 'Nouvelle livraison',
-                          subtitle: '$newDeliveriesAvailable disponible(s)',
+                        StreamBuilder<List<dynamic>>(
+                          stream: _orderService.watchAssignedOrders(uid),
+                          builder: (context, orderSnapshot) {
+                            final count = orderSnapshot.data?.length ?? 0;
+                            return _buildMenuCard(
+                              colors: colors,
+                              icon: Icons.inventory_2_rounded,
+                              iconBg: colors.interface.withValues(alpha: 0.1),
+                              iconColor: colors.interface,
+                              title: 'Nouvelle livraison',
+                              subtitle: '$count disponible(s)',
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const NouvelleLivraisonScreen()),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         _buildMenuCard(
@@ -317,8 +330,11 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color iconColor,
     required String title,
     required String subtitle,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: colors.surface,
@@ -365,6 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Icon(Icons.chevron_right_rounded, color: colors.textGrey),
         ],
+      ),
       ),
     );
   }
