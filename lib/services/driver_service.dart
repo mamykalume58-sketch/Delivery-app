@@ -69,4 +69,14 @@ class DriverService {
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
+
+  /// Écoute tous les livreurs actifs (disponible ou en_livraison) ayant une
+  /// position GPS connue — utilisé par l'écran Carte pour afficher tous les
+  /// livreurs sur une carte commune.
+  Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>> watchActiveDrivers() {
+    return _livreurs
+        .where('status', whereIn: ['disponible', 'en_livraison'])
+        .snapshots()
+        .map((snapshot) => snapshot.docs.where((doc) => doc.data()['location'] != null).toList());
+  }
 }
