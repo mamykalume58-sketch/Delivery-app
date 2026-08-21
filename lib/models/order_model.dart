@@ -52,6 +52,8 @@ class OrderModel {
   String get clientPhone => deliveryAddress['phone']?.toString() ?? '';
   String get address => deliveryAddress['address']?.toString() ?? '';
   String get city => deliveryAddress['city']?.toString() ?? '';
+  double? get deliveryLatitude => (deliveryAddress['latitude'] as num?)?.toDouble();
+  double? get deliveryLongitude => (deliveryAddress['longitude'] as num?)?.toDouble();
 
   factory OrderModel.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final map = doc.data() ?? {};

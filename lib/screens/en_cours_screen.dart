@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -25,6 +27,7 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
   LatLng? _currentPosition;
   String? _error;
   bool _updatingStatus = false;
+  bool _nearbyEmailSent = false;
 
   @override
   void initState() {
@@ -66,8 +69,31 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
       });
       if (uid != null) {
         DriverService().updateLocation(uid, position.latitude, position.longitude);
+        _checkDriverNearby(position);
       }
     });
+  }
+
+  Future<void> _checkDriverNearby(Position position) async {
+    if (_nearbyEmailSent) return;
+    final lat = widget.order.deliveryLatitude;
+    final lng = widget.order.deliveryLongitude;
+    if (lat == null || lng == null) return;
+
+    final distance = Geolocator.distanceBetween(
+      position.latitude, position.longitude, lat, lng,
+    );
+
+    if (distance <= 500) {
+      _nearbyEmailSent = true;
+      try {
+        await http.post(
+          Uri.parse('https://davidstore-payment.vercel.app/api/orders/${widget.order.id}/notify-driver-nearby'),
+        );
+      } catch (_) {
+        // Ne bloque jamais le suivi si l'email echoue
+      }
+    }
   }
 
   Future<void> _openInGoogleMaps() async {
