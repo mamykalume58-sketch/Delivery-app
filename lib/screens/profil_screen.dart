@@ -4,6 +4,7 @@ import '../models/driver_model.dart';
 import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../widgets/bottom_nav.dart';
+import '../widgets/tab_navigation.dart';
 import 'auth/login_screen.dart';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -216,9 +217,7 @@ class ProfilScreen extends StatelessWidget {
             ),
       bottomNavigationBar: BottomNav(
         currentIndex: 4,
-        onTap: (index) {
-          // Navigation entre onglets à brancher plus tard
-        },
+            onTap: (index) => navigateToTab(context, index),
       ),
     );
   }

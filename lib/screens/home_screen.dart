@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../widgets/bottom_nav.dart';
+import '../widgets/tab_navigation.dart';
 import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../models/driver_model.dart';
@@ -125,9 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           bottomNavigationBar: BottomNav(
             currentIndex: 0,
-            onTap: (index) {
-              // Navigation entre onglets à brancher plus tard
-            },
+            onTap: (index) => navigateToTab(context, index),
           ),
         );
       },

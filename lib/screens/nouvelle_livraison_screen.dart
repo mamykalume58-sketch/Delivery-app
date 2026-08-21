@@ -4,6 +4,8 @@ import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
 import 'en_cours_screen.dart';
+import '../widgets/bottom_nav.dart';
+import '../widgets/tab_navigation.dart';
 
 const Map<String, String> _statusLabels = {
   'preparing': 'En préparation',
@@ -141,6 +143,10 @@ class NouvelleLivraisonScreen extends StatelessWidget {
                 );
               },
             ),
+      bottomNavigationBar: BottomNav(
+        currentIndex: 1,
+        onTap: (index) => navigateToTab(context, index),
+      ),
     );
   }
 }

@@ -4,6 +4,8 @@ import '../theme/app_colors.dart';
 import '../models/order_model.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
+import '../widgets/bottom_nav.dart';
+import '../widgets/tab_navigation.dart';
 
 class MesGainsScreen extends StatelessWidget {
   const MesGainsScreen({super.key});
@@ -109,6 +111,10 @@ class MesGainsScreen extends StatelessWidget {
                 );
               },
             ),
+      bottomNavigationBar: BottomNav(
+        currentIndex: 3,
+        onTap: (index) => navigateToTab(context, index),
+      ),
     );
   }
 }
