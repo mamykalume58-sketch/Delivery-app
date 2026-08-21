@@ -1,21 +1,52 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_colors.dart';
 import '../models/order_model.dart';
+import '../services/order_service.dart';
+import 'verification_screen.dart';
 
-class ArriveClientScreen extends StatelessWidget {
+class ArriveClientScreen extends StatefulWidget {
   final OrderModel order;
 
   const ArriveClientScreen({super.key, required this.order});
 
+  @override
+  State<ArriveClientScreen> createState() => _ArriveClientScreenState();
+}
+
+class _ArriveClientScreenState extends State<ArriveClientScreen> {
+  bool _loading = false;
+
   Future<void> _callClient() async {
-    final url = Uri.parse('tel:${order.clientPhone}');
+    final url = Uri.parse('tel:${widget.order.clientPhone}');
     await launchUrl(url);
+  }
+
+  Future<void> _verifierCommande() async {
+    setState(() => _loading = true);
+    try {
+      var code = widget.order.verificationCode;
+      if (code == null || code.isEmpty) {
+        code = (1000 + Random().nextInt(9000)).toString();
+        await OrderService().setVerificationCode(widget.order.id, code);
+      }
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => VerificationScreen(order: widget.order, verificationCode: code!),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final order = widget.order;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -101,18 +132,18 @@ class ArriveClientScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // TODO: naviguer vers l'écran "Vérification" (QR + PIN) une fois construit.
-                },
+                onPressed: _loading ? null : _verifierCommande,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.interface,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
-                child: const Text(
-                  'Vérifier la commande',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
+                child: _loading
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                    : const Text(
+                        'Vérifier la commande',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                      ),
               ),
             ),
           ],

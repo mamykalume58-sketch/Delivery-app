@@ -31,4 +31,16 @@ class OrderService {
   Future<void> updateOrderStatus(String orderId, String status) async {
     await _orders.doc(orderId).update({'status': status});
   }
+
+  /// Écrit le code de vérification (PIN 4 chiffres) sur la commande, si pas
+  /// déjà présent. Utilisé pour l'écran Vérification (QR + PIN).
+  Future<void> setVerificationCode(String orderId, String code) async {
+    await _orders.doc(orderId).update({'verificationCode': code});
+  }
+
+  /// Écoute une commande précise en temps réel (utilisé par l'écran
+  /// Vérification pour détecter le passage à 'delivered').
+  Stream<OrderModel> watchOrder(String orderId) {
+    return _orders.doc(orderId).snapshots().map(OrderModel.fromDoc);
+  }
 }

@@ -24,10 +24,12 @@ class OrderModel {
   final List<OrderItemModel> items;
   final Map<String, dynamic> deliveryAddress;
   final int total;
+  final int fraisLivraison;
   final String paymentMethod;
   final String paymentStatus;
   final String? qrCode;
   final String? pin;
+  final String? verificationCode;
   final DateTime? createdAt;
 
   const OrderModel({
@@ -37,10 +39,12 @@ class OrderModel {
     this.items = const [],
     this.deliveryAddress = const {},
     this.total = 0,
+    this.fraisLivraison = 0,
     this.paymentMethod = '',
     this.paymentStatus = '',
     this.qrCode,
     this.pin,
+    this.verificationCode,
     this.createdAt,
   });
 
@@ -61,10 +65,12 @@ class OrderModel {
           const [],
       deliveryAddress: (map['deliveryAddress'] as Map?)?.cast<String, dynamic>() ?? const {},
       total: (map['total'] as num?)?.toInt() ?? 0,
+      fraisLivraison: (map['fraisLivraison'] as num?)?.toInt() ?? 0,
       paymentMethod: map['paymentMethod']?.toString() ?? '',
       paymentStatus: map['paymentStatus']?.toString() ?? '',
       qrCode: map['qrCode']?.toString(),
       pin: map['pin']?.toString(),
+      verificationCode: map['verificationCode']?.toString(),
       createdAt: (map['createdAt'] is Timestamp) ? (map['createdAt'] as Timestamp).toDate() : null,
     );
   }
