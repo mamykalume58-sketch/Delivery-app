@@ -31,6 +31,8 @@ class OrderModel {
   final String? pin;
   final String? verificationCode;
   final DateTime? createdAt;
+  final bool acceptedByDriver;
+  final DateTime? deliveredAt;
 
   const OrderModel({
     required this.id,
@@ -45,6 +47,8 @@ class OrderModel {
     this.qrCode,
     this.pin,
     this.verificationCode,
+    this.acceptedByDriver = false,
+    this.deliveredAt,
     this.createdAt,
   });
 
@@ -73,6 +77,8 @@ class OrderModel {
       qrCode: map['qrCode']?.toString(),
       pin: map['pin']?.toString(),
       verificationCode: map['verificationCode']?.toString(),
+      acceptedByDriver: map['acceptedByDriver'] == true,
+      deliveredAt: (map['deliveredAt'] is Timestamp) ? (map['deliveredAt'] as Timestamp).toDate() : null,
       createdAt: (map['createdAt'] is Timestamp) ? (map['createdAt'] as Timestamp).toDate() : null,
     );
   }

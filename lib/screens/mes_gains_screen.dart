@@ -112,7 +112,7 @@ class MesGainsScreen extends StatelessWidget {
               },
             ),
       bottomNavigationBar: BottomNav(
-        currentIndex: 3,
+        currentIndex: 2,
         onTap: (index) => navigateToTab(context, index),
       ),
     );

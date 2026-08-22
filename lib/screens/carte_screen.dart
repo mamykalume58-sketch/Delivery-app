@@ -73,7 +73,7 @@ class CarteScreen extends StatelessWidget {
             options: MapOptions(initialCenter: center, initialZoom: 13),
             children: [
               TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                 userAgentPackageName: 'com.davidstore.davidstore_livreur',
               ),
               MarkerLayer(markers: markers),
@@ -82,7 +82,7 @@ class CarteScreen extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BottomNav(
-        currentIndex: 2,
+        currentIndex: 1,
         onTap: (index) => navigateToTab(context, index),
       ),
     );

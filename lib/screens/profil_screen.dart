@@ -216,7 +216,7 @@ class ProfilScreen extends StatelessWidget {
               },
             ),
       bottomNavigationBar: BottomNav(
-        currentIndex: 4,
+        currentIndex: 3,
             onTap: (index) => navigateToTab(context, index),
       ),
     );

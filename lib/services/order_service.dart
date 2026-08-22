@@ -11,6 +11,7 @@ class OrderService {
   Stream<List<OrderModel>> watchAssignedOrders(String driverId) {
     return _orders
         .where('driverId', isEqualTo: driverId)
+        .where('acceptedByDriver', isEqualTo: false)
         .where('status', whereIn: [
           'preparing', 'shipped', 'in_transit', 'out_for_delivery',
         ])
@@ -18,12 +19,42 @@ class OrderService {
         .map((snapshot) => snapshot.docs.map(OrderModel.fromDoc).toList());
   }
 
-  /// Historique complet (toutes les commandes déjà assignées à ce livreur,
-  /// y compris livrées et annulées).
-  Stream<List<OrderModel>> watchOrderHistory(String driverId) {
+  /// Marque la commande comme acceptée par ce livreur (bouton "Accepter"
+  /// sur l'écran Nouvelle livraison). Ne change pas le statut de la
+  /// commande, seulement ce flag.
+  Future<void> acceptOrder(String orderId) async {
+    await _orders.doc(orderId).update({'acceptedByDriver': true});
+  }
+
+  /// Commandes acceptées par ce livreur, pas encore livrées ni annulées.
+  Stream<List<OrderModel>> watchInProgressOrders(String driverId) {
     return _orders
         .where('driverId', isEqualTo: driverId)
-        .orderBy('createdAt', descending: true)
+        .where('acceptedByDriver', isEqualTo: true)
+        .where('status', whereIn: [
+          'preparing', 'shipped', 'in_transit', 'out_for_delivery',
+        ])
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map(OrderModel.fromDoc).toList());
+  }
+
+  /// Marque la commande comme livrée avec la date/heure réelle de livraison
+  /// (utilisé pour la fenêtre de 4 jours de l'Historique). Le statut
+  /// 'delivered' lui-même est déjà écrit côté client (My-DavidSTORE) au
+  /// moment de la validation PIN/QR ; ceci ajoute seulement deliveredAt.
+  Future<void> markDelivered(String orderId) async {
+    await _orders.doc(orderId).update({'deliveredAt': FieldValue.serverTimestamp()});
+  }
+
+  /// Historique : commandes livrées avec succès dans les 4 derniers jours
+  /// (basé sur deliveredAt, pas createdAt).
+  Stream<List<OrderModel>> watchOrderHistory(String driverId) {
+    final cutoff = DateTime.now().subtract(const Duration(days: 4));
+    return _orders
+        .where('driverId', isEqualTo: driverId)
+        .where('status', isEqualTo: 'delivered')
+        .where('deliveredAt', isGreaterThan: Timestamp.fromDate(cutoff))
+        .orderBy('deliveredAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map(OrderModel.fromDoc).toList());
   }

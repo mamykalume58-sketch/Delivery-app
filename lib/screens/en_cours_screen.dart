@@ -156,9 +156,22 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
                     options: MapOptions(initialCenter: _currentPosition!, initialZoom: 15),
                     children: [
                       TileLayer(
-                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                         userAgentPackageName: 'com.davidstore.davidstore_livreur',
                       ),
+                      if (widget.order.deliveryLatitude != null && widget.order.deliveryLongitude != null)
+                        PolylineLayer(
+                          polylines: [
+                            Polyline(
+                              points: [
+                                _currentPosition!,
+                                LatLng(widget.order.deliveryLatitude!, widget.order.deliveryLongitude!),
+                              ],
+                              strokeWidth: 4,
+                              color: colors.interface,
+                            ),
+                          ],
+                        ),
                       MarkerLayer(
                         markers: [
                           Marker(
@@ -167,6 +180,13 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
                             height: 40,
                             child: Icon(Icons.motorcycle, color: colors.interface, size: 32),
                           ),
+                          if (widget.order.deliveryLatitude != null && widget.order.deliveryLongitude != null)
+                            Marker(
+                              point: LatLng(widget.order.deliveryLatitude!, widget.order.deliveryLongitude!),
+                              width: 40,
+                              height: 40,
+                              child: Icon(Icons.location_on, color: colors.error, size: 36),
+                            ),
                         ],
                       ),
                     ],

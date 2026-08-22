@@ -21,6 +21,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   void _handleOrder(OrderModel order) {
     if (order.status == 'delivered' && !_navigated) {
       _navigated = true;
+      OrderService().markDelivered(order.id);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         Navigator.pushReplacement(

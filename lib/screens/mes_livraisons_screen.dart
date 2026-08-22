@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
+import 'en_cours_screen.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
 
@@ -14,44 +14,8 @@ const Map<String, String> _statusLabels = {
   'out_for_delivery': 'En livraison',
 };
 
-class NouvelleLivraisonScreen extends StatefulWidget {
-  const NouvelleLivraisonScreen({super.key});
-
-  @override
-  State<NouvelleLivraisonScreen> createState() => _NouvelleLivraisonScreenState();
-}
-
-class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
-  final _orderService = OrderService();
-  final Set<String> _acceptingIds = {};
-  final Set<String> _acceptedIds = {};
-  final Map<String, OrderModel> _pinnedOrders = {};
-
-  Future<void> _acceptOrder(OrderModel order) async {
-    setState(() => _acceptingIds.add(order.id));
-    try {
-      await _orderService.acceptOrder(order.id);
-      if (!mounted) return;
-      setState(() {
-        _acceptingIds.remove(order.id);
-        _acceptedIds.add(order.id);
-        _pinnedOrders[order.id] = order;
-      });
-      Timer(const Duration(milliseconds: 1500), () {
-        if (!mounted) return;
-        setState(() {
-          _acceptedIds.remove(order.id);
-          _pinnedOrders.remove(order.id);
-        });
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _acceptingIds.remove(order.id));
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Erreur lors de l'acceptation. Réessaie.")),
-      );
-    }
-  }
+class MesLivraisonsScreen extends StatelessWidget {
+  const MesLivraisonsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,22 +27,18 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Nouvelle livraison', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text('En cours', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null
           ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
-              stream: _orderService.watchAssignedOrders(uid),
+              stream: OrderService().watchInProgressOrders(uid),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                final streamOrders = snapshot.data ?? [];
-                final orders = <OrderModel>[
-                  ..._pinnedOrders.values.where((o) => !streamOrders.any((s) => s.id == o.id)),
-                  ...streamOrders,
-                ];
+                final orders = snapshot.data ?? [];
                 if (orders.isEmpty) {
                   return Center(
                     child: Padding(
@@ -86,10 +46,10 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.inventory_2_outlined, size: 56, color: colors.textGrey),
+                          Icon(Icons.local_shipping_outlined, size: 56, color: colors.textGrey),
                           const SizedBox(height: 16),
                           Text(
-                            "Aucune livraison assignée pour le moment.",
+                            "Aucune livraison en cours pour le moment.",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: colors.textGrey, fontSize: 14),
                           ),
@@ -104,8 +64,6 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final order = orders[index];
-                    final isAccepted = _acceptedIds.contains(order.id);
-                    final isAccepting = _acceptingIds.contains(order.id);
                     return Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -164,19 +122,18 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: (isAccepted || isAccepting) ? null : () => _acceptOrder(order),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => EnCoursScreen(order: order)),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isAccepted ? colors.success : colors.interface,
-                                disabledBackgroundColor: isAccepted ? colors.success : colors.interface.withValues(alpha: 0.5),
+                                backgroundColor: colors.interface,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.symmetric(vertical: 12),
                               ),
-                              child: isAccepting
-                                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                                  : Text(
-                                      isAccepted ? 'Accepté avec succès' : 'Accepter',
-                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-                                    ),
+                              child: const Text('Voir les détails', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ),
                           ),
                         ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-/// Barre de navigation basse fixe : Accueil / Livraisons / Carte / Gains / Profil
-/// [currentIndex] : 0=Accueil, 1=Livraisons, 2=Carte, 3=Gains, 4=Profil
+/// Barre de navigation basse fixe : Accueil / Carte / Gains / Profil
+/// [currentIndex] : 0=Accueil, 1=Carte, 2=Gains, 3=Profil
 class BottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int>? onTap;
@@ -15,7 +15,6 @@ class BottomNav extends StatelessWidget {
 
   static const List<_NavItemData> _items = [
     _NavItemData(icon: Icons.home_rounded, label: 'Accueil'),
-    _NavItemData(icon: Icons.inventory_2_rounded, label: 'Livraisons'),
     _NavItemData(icon: Icons.map_rounded, label: 'Carte'),
     _NavItemData(icon: Icons.account_balance_wallet_rounded, label: 'Gains'),
     _NavItemData(icon: Icons.person_rounded, label: 'Profil'),

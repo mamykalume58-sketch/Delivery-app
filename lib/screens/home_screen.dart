@@ -9,6 +9,9 @@ import '../services/driver_service.dart';
 import '../models/driver_model.dart';
 import '../services/order_service.dart';
 import 'nouvelle_livraison_screen.dart';
+import 'historique_screen.dart';
+import 'mes_livraisons_screen.dart';
+import '../models/order_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final int inProgress = 0;
   final int todayEarnings = 0;
   final int newDeliveriesAvailable = 0;
-  final int inProgressDeliveries = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +100,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         const SizedBox(height: 12),
-                        _buildMenuCard(
-                          colors: colors,
-                          icon: Icons.local_shipping_rounded,
-                          iconBg: colors.gold.withValues(alpha: 0.15),
-                          iconColor: colors.gold,
-                          title: 'En cours',
-                          subtitle: '$inProgressDeliveries livraison(s)',
+                        StreamBuilder<List<OrderModel>>(
+                          stream: _orderService.watchInProgressOrders(uid),
+                          builder: (context, inProgressSnapshot) {
+                            final inProgressCount = inProgressSnapshot.data?.length ?? 0;
+                            return _buildMenuCard(
+                              colors: colors,
+                              icon: Icons.local_shipping_rounded,
+                              iconBg: colors.gold.withValues(alpha: 0.15),
+                              iconColor: colors.gold,
+                              title: 'En cours',
+                              subtitle: '$inProgressCount livraison(s)',
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const MesLivraisonsScreen()),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         _buildMenuCard(
@@ -114,6 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconColor: colors.textGrey,
                           title: 'Historique',
                           subtitle: 'Voir vos livraisons',
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HistoriqueScreen()),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         _buildStatusCard(colors, uid, driver),
