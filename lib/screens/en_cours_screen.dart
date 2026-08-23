@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -87,8 +88,10 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
     if (distance <= 500) {
       _nearbyEmailSent = true;
       try {
+        final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
         await http.post(
           Uri.parse('https://davidstore-payment.vercel.app/api/orders/${widget.order.id}/notify-driver-nearby'),
+          headers: {'Authorization': 'Bearer $idToken'},
         );
       } catch (_) {
         // Ne bloque jamais le suivi si l'email echoue
