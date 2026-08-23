@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'documents_screen.dart';
+import 'parametres_screen.dart';
+import 'aide_support_screen.dart';
+import 'modifier_profil_screen.dart';
 import '../theme/app_colors.dart';
 import '../models/driver_model.dart';
 import '../services/auth_service.dart';
@@ -61,9 +65,9 @@ class ProfilScreen extends StatelessWidget {
     );
   }
 
-  Widget _menuLink(BuildContext context, IconData icon, String label, AppColors colors, {Color? color}) {
+  Widget _menuLink(BuildContext context, IconData icon, String label, AppColors colors, {Color? color, VoidCallback? onTap}) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
@@ -180,11 +184,13 @@ class ProfilScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          _menuLink(context, Icons.description_outlined, 'Documents', colors),
+                          _menuLink(context, Icons.edit_outlined, 'Modifier le profil', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ModifierProfilScreen(driver: driver)))),
                           Divider(height: 1, color: colors.divider),
-                          _menuLink(context, Icons.settings_outlined, 'Paramètres', colors),
+                          _menuLink(context, Icons.description_outlined, 'Documents', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DocumentsScreen()))),
                           Divider(height: 1, color: colors.divider),
-                          _menuLink(context, Icons.help_outline, 'Aide & Support', colors),
+                          _menuLink(context, Icons.settings_outlined, 'Paramètres', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ParametresScreen()))),
+                          Divider(height: 1, color: colors.divider),
+                          _menuLink(context, Icons.help_outline, 'Aide & Support', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AideSupportScreen()))),
                         ],
                       ),
                     ),

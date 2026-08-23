@@ -14,6 +14,7 @@ class DriverModel {
   final int reviewCount;
   final int earnings;
   final String? currentOrderId;
+  final String? idDocumentUrl;
 
   const DriverModel({
     required this.name,
@@ -26,6 +27,7 @@ class DriverModel {
     required this.reviewCount,
     required this.earnings,
     this.currentOrderId,
+    this.idDocumentUrl,
   });
 
   bool get isAvailable => status == 'disponible';
@@ -43,6 +45,7 @@ class DriverModel {
       reviewCount: (data['reviewCount'] as num?)?.toInt() ?? 0,
       earnings: (data['earnings'] as num?)?.toInt() ?? 0,
       currentOrderId: data['currentOrderId'] as String?,
+      idDocumentUrl: data['idDocumentUrl'] as String?,
     );
   }
 }

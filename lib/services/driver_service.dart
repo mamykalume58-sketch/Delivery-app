@@ -51,6 +51,45 @@ class DriverService {
     return 'data:image/jpeg;base64,$base64Str';
   }
 
+  /// Convertit la pièce d'identité en base64, comme uploadProfilePhoto.
+  Future<String> uploadIdDocument(String uid, File file) async {
+    final bytes = await file.readAsBytes();
+    final base64Str = base64Encode(bytes);
+    return 'data:image/jpeg;base64,$base64Str';
+  }
+
+  /// Écrit l'URL (base64) de la pièce d'identité sur le document livreur.
+  Future<void> updateIdDocument(String uid, String idDocumentUrl) async {
+    await _livreurs.doc(uid).update({
+      'idDocumentUrl': idDocumentUrl,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  /// Met à jour les informations modifiables du profil (nom, téléphone,
+  /// véhicule, plaque) et éventuellement la photo (déjà en base64 via
+  /// uploadProfilePhoto si changée).
+  Future<void> updateProfile({
+    required String uid,
+    required String name,
+    required String phone,
+    required String vehicle,
+    required String plateNumber,
+    String? photoUrl,
+  }) async {
+    final data = <String, dynamic>{
+      'name': name,
+      'phone': phone,
+      'vehicle': vehicle,
+      'plateNumber': plateNumber,
+      'updatedAt': FieldValue.serverTimestamp(),
+    };
+    if (photoUrl != null) {
+      data['photoUrl'] = photoUrl;
+    }
+    await _livreurs.doc(uid).update(data);
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> watchDriver(String uid) {
     return _livreurs.doc(uid).snapshots();
   }
