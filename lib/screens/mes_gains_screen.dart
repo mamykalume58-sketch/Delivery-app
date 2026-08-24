@@ -7,8 +7,24 @@ import '../services/order_service.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
 
-class MesGainsScreen extends StatelessWidget {
+class MesGainsScreen extends StatefulWidget {
   const MesGainsScreen({super.key});
+
+  @override
+  State<MesGainsScreen> createState() => _MesGainsScreenState();
+}
+
+class _MesGainsScreenState extends State<MesGainsScreen> {
+  Stream<List<OrderModel>>? _historyStream;
+
+  @override
+  void initState() {
+    super.initState();
+    final uid = AuthService().currentUser?.uid;
+    if (uid != null) {
+      _historyStream = OrderService().watchOrderHistory(uid);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +39,10 @@ class MesGainsScreen extends StatelessWidget {
         title: Text('Mes gains', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
-      body: uid == null
+      body: uid == null || _historyStream == null
           ? Center(child: Text('Non connecté', style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
-              stream: OrderService().watchOrderHistory(uid),
+              stream: _historyStream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());

@@ -11,6 +11,9 @@ import '../services/order_service.dart';
 import 'nouvelle_livraison_screen.dart';
 import 'historique_screen.dart';
 import 'mes_livraisons_screen.dart';
+import 'notifications_screen.dart';
+import '../services/notification_service.dart';
+import '../models/notification_model.dart';
 import '../models/order_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -164,23 +167,31 @@ class _HomeScreenState extends State<HomeScreen> {
               color: colors.primary,
             ),
           ),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(Icons.notifications_none_rounded, color: colors.primary),
-              Positioned(
-                right: -2,
-                top: -2,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: colors.error,
-                    shape: BoxShape.circle,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(Icons.notifications_none_rounded, color: colors.primary),
+                Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: colors.error,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

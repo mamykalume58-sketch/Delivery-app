@@ -6,13 +6,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class OrderItemModel {
   final String name;
   final int quantity;
+  final int price;
+  final String? image;
+  final String? color;
 
-  const OrderItemModel({required this.name, required this.quantity});
+  const OrderItemModel({
+    required this.name,
+    required this.quantity,
+    this.price = 0,
+    this.image,
+    this.color,
+  });
 
   factory OrderItemModel.fromMap(Map<String, dynamic> map) {
     return OrderItemModel(
       name: map['name']?.toString() ?? '',
       quantity: (map['quantity'] as num?)?.toInt() ?? 1,
+      price: (map['price'] as num?)?.toInt() ?? 0,
+      image: map['image']?.toString(),
+      color: map['color']?.toString(),
     );
   }
 }
