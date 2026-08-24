@@ -7,10 +7,25 @@ import '../services/driver_service.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
 
-class CarteScreen extends StatelessWidget {
+class CarteScreen extends StatefulWidget {
   const CarteScreen({super.key});
 
+  @override
+  State<CarteScreen> createState() => _CarteScreenState();
+}
+
+class _CarteScreenState extends State<CarteScreen> {
   static const LatLng _defaultCenter = LatLng(-11.6609, 27.4794);
+
+  // Créé une seule fois (pas à chaque build) pour que StreamBuilder ne
+  // reparte jamais en état "waiting" à cause d'un nouveau flux recréé.
+  late final Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>> _driversStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _driversStream = DriverService().watchActiveDrivers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +40,7 @@ class CarteScreen extends StatelessWidget {
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-        stream: DriverService().watchActiveDrivers(),
+        stream: _driversStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
