@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../services/theme_service.dart';
+import '../services/locale_service.dart';
 
 class ParametresScreen extends StatefulWidget {
   const ParametresScreen({super.key});
@@ -11,9 +12,12 @@ class ParametresScreen extends StatefulWidget {
 
 class _ParametresScreenState extends State<ParametresScreen> {
   bool _notificationsEnabled = true;
-  String _selectedLanguage = 'Français';
 
-  static const _languages = ['Français', 'English', 'Kiswahili'];
+  static const _languages = {
+    'fr': 'Français',
+    'en': 'English',
+    'sw': 'Kiswahili',
+  };
   static const _themeLabels = {
     ThemeMode.system: 'Système',
     ThemeMode.light: 'Clair',
@@ -28,12 +32,14 @@ class _ParametresScreenState extends State<ParametresScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (final lang in _languages)
+            for (final entry in _languages.entries)
               ListTile(
-                title: Text(lang, style: TextStyle(color: colors.primary)),
-                trailing: lang == _selectedLanguage ? Icon(Icons.check, color: colors.interface) : null,
+                title: Text(entry.value, style: TextStyle(color: colors.primary)),
+                trailing: entry.key == LocaleService.locale.value.languageCode
+                    ? Icon(Icons.check, color: colors.interface)
+                    : null,
                 onTap: () {
-                  setState(() => _selectedLanguage = lang);
+                  LocaleService.setLocale(entry.key);
                   Navigator.pop(context);
                 },
               ),
@@ -139,12 +145,17 @@ class _ParametresScreenState extends State<ParametresScreen> {
                 },
               ),
               Divider(height: 1, color: colors.divider),
-              _settingRow(
-                icon: Icons.language_rounded,
-                label: 'Langue',
-                colors: colors,
-                trailing: Text(_selectedLanguage, style: TextStyle(fontSize: 13, color: colors.textGrey)),
-                onTap: () => _pickLanguage(colors),
+              ValueListenableBuilder<Locale>(
+                valueListenable: LocaleService.locale,
+                builder: (context, locale, _) {
+                  return _settingRow(
+                    icon: Icons.language_rounded,
+                    label: 'Langue',
+                    colors: colors,
+                    trailing: Text(_languages[locale.languageCode] ?? '', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+                    onTap: () => _pickLanguage(colors),
+                  );
+                },
               ),
             ],
           ),
