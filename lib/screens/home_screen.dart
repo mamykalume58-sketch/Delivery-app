@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,29 @@ class _HomeScreenState extends State<HomeScreen> {
   final int inProgress = 0;
   final int todayEarnings = 0;
   final int newDeliveriesAvailable = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _registerFcmToken();
+  }
+
+  Future<void> _registerFcmToken() async {
+    final uid = _authService.currentUser?.uid;
+    if (uid == null) return;
+
+    final messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission();
+
+    final token = await messaging.getToken();
+    if (token != null) {
+      await _driverService.updateFcmToken(uid, token);
+    }
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      _driverService.updateFcmToken(uid, newToken);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

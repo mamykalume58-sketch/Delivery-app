@@ -118,4 +118,13 @@ class DriverService {
         .snapshots()
         .map((snapshot) => snapshot.docs.where((doc) => doc.data()['location'] != null).toList());
   }
+
+  /// Enregistre/actualise le token FCM du livreur pour l'envoi de
+  /// notifications push (voir server/index.js: sendPushToDriver).
+  Future<void> updateFcmToken(String uid, String token) async {
+    await _livreurs.doc(uid).update({
+      'fcmToken': token,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
 }
