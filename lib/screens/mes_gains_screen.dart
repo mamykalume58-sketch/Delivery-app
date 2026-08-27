@@ -44,6 +44,18 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
           : StreamBuilder<List<OrderModel>>(
               stream: _historyStream,
               builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        'Erreur: ${snapshot.error}',
+                        style: TextStyle(color: colors.error, fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
