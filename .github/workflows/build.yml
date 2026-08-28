@@ -73,12 +73,12 @@ jobs:
 
       - name: Mettre à jour la version dans Firestore
         env:
-          FIREBASE_SERVICE_ACCOUNT_JSON_B64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON_B64 }}
+          FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
           VERSION_NAME: ${{ steps.version.outputs.name }}
           VERSION_CODE: ${{ steps.version.outputs.code }}
           DOWNLOAD_URL: ${{ steps.meta.outputs.url }}
           FILE_SIZE: ${{ steps.meta.outputs.size }}
         run: |
           npm install firebase-admin
-          echo "$FIREBASE_SERVICE_ACCOUNT_JSON_B64" | base64 -d > /tmp/sa.json
+          echo "$FIREBASE_SERVICE_ACCOUNT_BASE64" | base64 -d > /tmp/sa.json
           node scripts/update-version.js
