@@ -32,10 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // Compteurs de livraisons/gains du jour : à brancher une fois le champ
   // driverId ajouté aux commandes (en attente de validation avec le
   // dashboard admin). En attendant, pas de chiffres inventés — tout à 0.
-  final int todayDeliveries = 0;
-  final int inProgress = 0;
-  final int todayEarnings = 0;
-  final int newDeliveriesAvailable = 0;
 
   @override
   void initState() {
@@ -106,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         _buildProfileCard(colors, driver),
                         const SizedBox(height: 16),
-                        _buildStatsCard(colors),
+                        _buildStatsCard(colors, uid),
                         const SizedBox(height: 20),
                         StreamBuilder<List<dynamic>>(
                           stream: _orderService.watchAssignedOrders(uid),
@@ -308,42 +304,63 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatsCard(AppColors colors) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colors.primary, colors.interface],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Aujourd'hui",
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _statItem('$todayDeliveries', 'Livraisons'),
-              _statDivider(),
-              _statItem('$inProgress', 'En cours'),
-              _statDivider(),
-              _statItem('${_formatFC(todayEarnings)} FC', 'Gains'),
-            ],
-          ),
-        ],
-      ),
+  Widget _buildStatsCard(AppColors colors, String uid) {
+    return StreamBuilder<List<OrderModel>>(
+      stream: _orderService.watchOrderHistory(uid),
+      builder: (context, historySnapshot) {
+        final delivered = historySnapshot.data ?? [];
+        final now = DateTime.now();
+        final todayOrders = delivered.where((o) {
+          final d = o.deliveredAt;
+          return d != null && d.year == now.year && d.month == now.month && d.day == now.day;
+        }).toList();
+        final todayDeliveries = todayOrders.length;
+        final todayEarnings = todayOrders.fold<int>(0, (sum, o) => sum + o.fraisLivraison);
+
+        return StreamBuilder<List<OrderModel>>(
+          stream: _orderService.watchInProgressOrders(uid),
+          builder: (context, inProgressSnapshot) {
+            final inProgress = inProgressSnapshot.data?.length ?? 0;
+
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [colors.primary, colors.interface],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Aujourd'hui",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _statItem('$todayDeliveries', 'Livraisons'),
+                      _statDivider(),
+                      _statItem('$inProgress', 'En cours'),
+                      _statDivider(),
+                      _statItem('${_formatFC(todayEarnings)} FC', 'Gains'),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
