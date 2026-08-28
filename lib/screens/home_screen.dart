@@ -16,6 +16,8 @@ import 'notifications_screen.dart';
 import '../services/notification_service.dart';
 import '../models/notification_model.dart';
 import '../models/order_model.dart';
+import '../services/version_service.dart';
+import '../widgets/update_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _registerFcmToken();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdate());
   }
 
   Future<void> _registerFcmToken() async {
@@ -54,6 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
       _driverService.updateFcmToken(uid, newToken);
     });
+  }
+
+  Future<void> _checkForUpdate() async {
+    final info = await VersionService().checkForUpdate();
+    if (info != null && mounted) {
+      showUpdateDialog(context, info: info);
+    }
   }
 
   @override
