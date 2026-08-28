@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,6 +21,15 @@ jobs:
 
       - name: Installer les dépendances
         run: flutter pub get
+
+      - name: Extraire la version depuis pubspec.yaml
+        id: version
+        run: |
+          VERSION_LINE=$(grep '^version:' pubspec.yaml)
+          VERSION_NAME=$(echo "$VERSION_LINE" | sed 's/version: *//' | cut -d'+' -f1 | tr -d '[:space:]')
+          VERSION_CODE=$(echo "$VERSION_LINE" | sed 's/version: *//' | cut -d'+' -f2 | tr -d '[:space:]')
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
 
       - name: Générer les icônes de l'application
         run: dart run flutter_launcher_icons
@@ -38,3 +50,35 @@ jobs:
         with:
           name: davidstore-livreur-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Créer la GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.name }}+${{ steps.version.outputs.code }}
+          name: Delivery App v${{ steps.version.outputs.name }} (${{ steps.version.outputs.code }})
+          files: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Calculer taille et URL de téléchargement
+        id: meta
+        run: |
+          SIZE=$(stat -c%s build/app/outputs/flutter-apk/app-release.apk)
+          URL="https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.name }}+${{ steps.version.outputs.code }}/app-release.apk"
+          echo "size=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Mettre à jour la version dans Firestore
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON_B64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON_B64 }}
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+          DOWNLOAD_URL: ${{ steps.meta.outputs.url }}
+          FILE_SIZE: ${{ steps.meta.outputs.size }}
+        run: |
+          npm install firebase-admin
+          echo "$FIREBASE_SERVICE_ACCOUNT_JSON_B64" | base64 -d > /tmp/sa.json
+          node scripts/update-version.js
