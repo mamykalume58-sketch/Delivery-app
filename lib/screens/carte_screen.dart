@@ -42,6 +42,18 @@ class _CarteScreenState extends State<CarteScreen> {
       body: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
         stream: _driversStream,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  'Erreur: ${snapshot.error}',
+                  style: TextStyle(color: colors.error, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
