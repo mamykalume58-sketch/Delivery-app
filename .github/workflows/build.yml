@@ -22,7 +22,15 @@ jobs:
       - name: Générer les icônes de l'application
         run: dart run flutter_launcher_icons
 
+      - name: Décoder le keystore de signature
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > $HOME/release.jks
+
       - name: Build APK (release)
+        env:
+          KEYSTORE_PATH: /home/runner/release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: flutter build apk --release
 
       - name: Uploader l'APK en artefact
