@@ -74,4 +74,12 @@ class OrderService {
   Stream<OrderModel> watchOrder(String orderId) {
     return _orders.doc(orderId).snapshots().map(OrderModel.fromDoc);
   }
+
+  /// Récupération ponctuelle (pas de stream) — utilisée pour la navigation
+  /// au tap sur une notification push (voir main.dart _handleNotificationTap).
+  Future<OrderModel?> getOrder(String orderId) async {
+    final doc = await _orders.doc(orderId).get();
+    if (!doc.exists) return null;
+    return OrderModel.fromDoc(doc);
+  }
 }
