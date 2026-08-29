@@ -116,9 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildProfileCard(colors, driver),
+                        _buildProfileCard(colors, l10n, driver),
                         const SizedBox(height: 16),
-                        _buildStatsCard(colors, uid),
+                        _buildStatsCard(colors, l10n, uid),
                         const SizedBox(height: 20),
                         StreamBuilder<List<dynamic>>(
                           stream: _orderService.watchAssignedOrders(uid),
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        _buildStatusCard(colors, uid, driver),
+                        _buildStatusCard(colors, l10n, uid, driver),
                       ],
                     ),
                   ),
@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  Widget _buildProfileCard(AppColors colors, DriverModel driver) {
+  Widget _buildProfileCard(AppColors colors, AppLocalizations l10n, DriverModel driver) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -320,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatsCard(AppColors colors, String uid) {
+  Widget _buildStatsCard(AppColors colors, AppLocalizations l10n, String uid) {
     return StreamBuilder<List<OrderModel>>(
       stream: _orderService.watchOrderHistory(uid),
       builder: (context, historySnapshot) {
@@ -475,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatusCard(AppColors colors, String uid, DriverModel driver) {
+  Widget _buildStatusCard(AppColors colors, AppLocalizations l10n, String uid, DriverModel driver) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
