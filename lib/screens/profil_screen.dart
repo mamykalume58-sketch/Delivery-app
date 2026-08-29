@@ -9,6 +9,7 @@ import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
+import '../l10n/app_localizations.dart';
 import 'auth/login_screen.dart';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -22,19 +23,20 @@ class ProfilScreen extends StatelessWidget {
   const ProfilScreen({super.key});
 
   Future<void> _confirmSignOut(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Se déconnecter ?'),
-        content: const Text('Vous devrez vous reconnecter pour accéder à votre compte.'),
+        title: Text(l10n.profilScreen_signOutTitle),
+        content: Text(l10n.profilScreen_signOutMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Annuler'),
+            child: Text(l10n.profilScreen_cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Déconnexion', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.profilScreen_signOut, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -87,6 +89,7 @@ class ProfilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -94,10 +97,10 @@ class ProfilScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Profil', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.profilScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
       ),
       body: uid == null
-          ? Center(child: Text('Non connecté', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.profilScreen_notConnected, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<DriverModel>(
               stream: DriverService().watchDriver(uid).map(DriverModel.fromDoc),
               builder: (context, snapshot) {
@@ -141,7 +144,7 @@ class ProfilScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            isOnline ? 'En ligne' : 'Hors ligne',
+                            isOnline ? l10n.homeScreen_online : l10n.homeScreen_offline,
                             style: TextStyle(fontSize: 12, color: colors.textGrey),
                           ),
                           const SizedBox(width: 10),
@@ -165,11 +168,11 @@ class ProfilScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Text('Informations', style: TextStyle(fontSize: 12, color: colors.textGrey)),
+                          Text(l10n.profilScreen_information, style: TextStyle(fontSize: 12, color: colors.textGrey)),
                           const Divider(height: 20),
-                          _infoRow('Téléphone', driver.phone, colors),
-                          _infoRow('Véhicule', driver.vehicle.isEmpty ? '—' : driver.vehicle, colors),
-                          _infoRow('Plaque', driver.plateNumber.isEmpty ? '—' : driver.plateNumber, colors),
+                          _infoRow(l10n.profilScreen_phone, driver.phone, colors),
+                          _infoRow(l10n.profilScreen_vehicle, driver.vehicle.isEmpty ? '—' : driver.vehicle, colors),
+                          _infoRow(l10n.profilScreen_plate, driver.plateNumber.isEmpty ? '—' : driver.plateNumber, colors),
                         ],
                       ),
                     ),
@@ -184,13 +187,13 @@ class ProfilScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          _menuLink(context, Icons.edit_outlined, 'Modifier le profil', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ModifierProfilScreen(driver: driver)))),
+                          _menuLink(context, Icons.edit_outlined, l10n.profilScreen_editProfile, colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ModifierProfilScreen(driver: driver)))),
                           Divider(height: 1, color: colors.divider),
-                          _menuLink(context, Icons.description_outlined, 'Documents', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DocumentsScreen()))),
+                          _menuLink(context, Icons.description_outlined, l10n.profilScreen_documents, colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DocumentsScreen()))),
                           Divider(height: 1, color: colors.divider),
-                          _menuLink(context, Icons.settings_outlined, 'Paramètres', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ParametresScreen()))),
+                          _menuLink(context, Icons.settings_outlined, l10n.parametresScreen_title, colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ParametresScreen()))),
                           Divider(height: 1, color: colors.divider),
-                          _menuLink(context, Icons.help_outline, 'Aide & Support', colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AideSupportScreen()))),
+                          _menuLink(context, Icons.help_outline, l10n.profilScreen_helpSupport, colors, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AideSupportScreen()))),
                         ],
                       ),
                     ),
@@ -211,7 +214,7 @@ class ProfilScreen extends StatelessWidget {
                             children: [
                               const Icon(Icons.logout, size: 20, color: Colors.red),
                               const SizedBox(width: 12),
-                              const Text('Déconnexion', style: TextStyle(fontSize: 14, color: Colors.red)),
+                              Text(l10n.profilScreen_signOut, style: const TextStyle(fontSize: 14, color: Colors.red)),
                             ],
                           ),
                         ),

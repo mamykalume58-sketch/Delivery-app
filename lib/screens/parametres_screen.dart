@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../services/theme_service.dart';
 import '../services/locale_service.dart';
+import '../l10n/app_localizations.dart';
 
 class ParametresScreen extends StatefulWidget {
   const ParametresScreen({super.key});
@@ -18,11 +19,12 @@ class _ParametresScreenState extends State<ParametresScreen> {
     'en': 'English',
     'sw': 'Kiswahili',
   };
-  static const _themeLabels = {
-    ThemeMode.system: 'Système',
-    ThemeMode.light: 'Clair',
-    ThemeMode.dark: 'Sombre',
-  };
+
+  Map<ThemeMode, String> _themeLabels(AppLocalizations l10n) => {
+        ThemeMode.system: l10n.parametresScreen_themeSystem,
+        ThemeMode.light: l10n.parametresScreen_themeLight,
+        ThemeMode.dark: l10n.parametresScreen_themeDark,
+      };
 
   void _pickLanguage(AppColors colors) {
     showModalBottomSheet(
@@ -49,7 +51,8 @@ class _ParametresScreenState extends State<ParametresScreen> {
     );
   }
 
-  void _pickTheme(AppColors colors) {
+  void _pickTheme(AppColors colors, AppLocalizations l10n) {
+    final themeLabels = _themeLabels(l10n);
     showModalBottomSheet(
       context: context,
       backgroundColor: colors.surface,
@@ -57,7 +60,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (final entry in _themeLabels.entries)
+            for (final entry in themeLabels.entries)
               ListTile(
                 title: Text(entry.value, style: TextStyle(color: colors.primary)),
                 trailing: entry.key == ThemeService.mode.value ? Icon(Icons.check, color: colors.interface) : null,
@@ -100,13 +103,15 @@ class _ParametresScreenState extends State<ParametresScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
+    final themeLabels = _themeLabels(l10n);
 
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Paramètres', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.parametresScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: Padding(
@@ -123,7 +128,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
             children: [
               _settingRow(
                 icon: Icons.notifications_none_rounded,
-                label: 'Notifications',
+                label: l10n.parametresScreen_notifications,
                 colors: colors,
                 trailing: Switch(
                   value: _notificationsEnabled,
@@ -137,10 +142,10 @@ class _ParametresScreenState extends State<ParametresScreen> {
                 builder: (context, themeMode, _) {
                   return _settingRow(
                     icon: Icons.brightness_6_outlined,
-                    label: 'Thème',
+                    label: l10n.parametresScreen_theme,
                     colors: colors,
-                    trailing: Text(_themeLabels[themeMode] ?? '', style: TextStyle(fontSize: 13, color: colors.textGrey)),
-                    onTap: () => _pickTheme(colors),
+                    trailing: Text(themeLabels[themeMode] ?? '', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+                    onTap: () => _pickTheme(colors, l10n),
                   );
                 },
               ),
@@ -150,7 +155,7 @@ class _ParametresScreenState extends State<ParametresScreen> {
                 builder: (context, locale, _) {
                   return _settingRow(
                     icon: Icons.language_rounded,
-                    label: 'Langue',
+                    label: l10n.parametresScreen_language,
                     colors: colors,
                     trailing: Text(_languages[locale.languageCode] ?? '', style: TextStyle(fontSize: 13, color: colors.textGrey)),
                     onTap: () => _pickLanguage(colors),

@@ -71,5 +71,25 @@
     "placeholders": {
       "error": {}
     }
-  }
+  },
+  "parametresScreen_title": "Paramètres",
+  "parametresScreen_notifications": "Notifications",
+  "parametresScreen_theme": "Thème",
+  "parametresScreen_language": "Langue",
+  "parametresScreen_themeSystem": "Système",
+  "parametresScreen_themeLight": "Clair",
+  "parametresScreen_themeDark": "Sombre",
+  "profilScreen_title": "Profil",
+  "profilScreen_notConnected": "Non connecté",
+  "profilScreen_signOutTitle": "Se déconnecter ?",
+  "profilScreen_signOutMessage": "Vous devrez vous reconnecter pour accéder à votre compte.",
+  "profilScreen_cancel": "Annuler",
+  "profilScreen_signOut": "Déconnexion",
+  "profilScreen_information": "Informations",
+  "profilScreen_phone": "Téléphone",
+  "profilScreen_vehicle": "Véhicule",
+  "profilScreen_plate": "Plaque",
+  "profilScreen_editProfile": "Modifier le profil",
+  "profilScreen_documents": "Documents",
+  "profilScreen_helpSupport": "Aide & Support"
 }
