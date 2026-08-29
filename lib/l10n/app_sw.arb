@@ -48,5 +48,8 @@
   "mesGainsScreen_todayGains": "Mapato ya leo",
   "mesGainsScreen_history": "Historia ya mapato",
   "mesGainsScreen_noDeliveries": "Hakuna utoaji uliokamilika bado.",
-  "mesGainsScreen_error": "Hitilafu: {error}"
+  "mesGainsScreen_error": "Hitilafu: {error}",
+  "carteScreen_title": "Ramani ya madereva",
+  "carteScreen_defaultDriverName": "Dereva",
+  "carteScreen_error": "Hitilafu: {error}"
 }

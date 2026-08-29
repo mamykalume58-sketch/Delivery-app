@@ -48,5 +48,8 @@
   "mesGainsScreen_todayGains": "Today's earnings",
   "mesGainsScreen_history": "Earnings history",
   "mesGainsScreen_noDeliveries": "No completed deliveries yet.",
-  "mesGainsScreen_error": "Error: {error}"
+  "mesGainsScreen_error": "Error: {error}",
+  "carteScreen_title": "Driver map",
+  "carteScreen_defaultDriverName": "Driver",
+  "carteScreen_error": "Error: {error}"
 }

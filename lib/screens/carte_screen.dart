@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../services/driver_service.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
+import '../l10n/app_localizations.dart';
 
 class CarteScreen extends StatefulWidget {
   const CarteScreen({super.key});
@@ -30,13 +31,14 @@ class _CarteScreenState extends State<CarteScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Carte des livreurs', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.carteScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
@@ -47,7 +49,7 @@ class _CarteScreenState extends State<CarteScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'Erreur: ${snapshot.error}',
+                  l10n.carteScreen_error(snapshot.error.toString()),
                   style: TextStyle(color: colors.error, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
@@ -65,7 +67,7 @@ class _CarteScreenState extends State<CarteScreen> {
             final data = doc.data();
             final geo = data['location'] as GeoPoint?;
             if (geo == null) continue;
-            final name = data['name']?.toString() ?? 'Livreur';
+            final name = data['name']?.toString() ?? l10n.carteScreen_defaultDriverName;
 
             markers.add(
               Marker(

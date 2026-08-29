@@ -63,5 +63,13 @@
     "placeholders": {
       "error": {}
     }
+  },
+  "carteScreen_title": "Carte des livreurs",
+  "carteScreen_defaultDriverName": "Livreur",
+  "carteScreen_error": "Erreur : {error}",
+  "@carteScreen_error": {
+    "placeholders": {
+      "error": {}
+    }
   }
 }
