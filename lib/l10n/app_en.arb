@@ -14,5 +14,19 @@
   "loginScreen_emailInvalid": "Invalid email",
   "loginScreen_passwordRequired": "Password required",
   "loginScreen_resetEmailSent": "Password reset email sent.",
-  "loginScreen_enterEmailToReset": "Enter your email to reset."
+  "loginScreen_enterEmailToReset": "Enter your email to reset.",
+  "registerScreen_title": "Driver Sign Up",
+  "registerScreen_nameLabel": "Full name",
+  "registerScreen_nameRequired": "Name required",
+  "registerScreen_emailLabel": "Email",
+  "registerScreen_emailInvalid": "Invalid email",
+  "registerScreen_phoneLabel": "Phone number",
+  "registerScreen_phoneRequired": "Phone required",
+  "registerScreen_passwordLabel": "Password",
+  "registerScreen_passwordMinLength": "6 characters minimum",
+  "registerScreen_confirmPasswordLabel": "Confirm password",
+  "registerScreen_confirmRequired": "Confirmation required",
+  "registerScreen_passwordMismatch": "Passwords do not match.",
+  "registerScreen_submitButton": "Sign up",
+  "registerScreen_alreadyAccount": "Already have an account? Sign in"
 }

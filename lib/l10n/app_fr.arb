@@ -14,5 +14,19 @@
   "loginScreen_emailInvalid": "Email invalide",
   "loginScreen_passwordRequired": "Mot de passe requis",
   "loginScreen_resetEmailSent": "Email de réinitialisation envoyé.",
-  "loginScreen_enterEmailToReset": "Entrez votre email pour réinitialiser."
+  "loginScreen_enterEmailToReset": "Entrez votre email pour réinitialiser.",
+  "registerScreen_title": "Inscription Livreur",
+  "registerScreen_nameLabel": "Nom complet",
+  "registerScreen_nameRequired": "Nom requis",
+  "registerScreen_emailLabel": "Email",
+  "registerScreen_emailInvalid": "Email invalide",
+  "registerScreen_phoneLabel": "Numéro de téléphone",
+  "registerScreen_phoneRequired": "Téléphone requis",
+  "registerScreen_passwordLabel": "Mot de passe",
+  "registerScreen_passwordMinLength": "6 caractères minimum",
+  "registerScreen_confirmPasswordLabel": "Confirmer le mot de passe",
+  "registerScreen_confirmRequired": "Confirmation requise",
+  "registerScreen_passwordMismatch": "Les mots de passe ne correspondent pas.",
+  "registerScreen_submitButton": "S'inscrire",
+  "registerScreen_alreadyAccount": "Déjà un compte ? Se connecter"
 }

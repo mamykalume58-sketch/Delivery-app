@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../services/auth_service.dart';
 import '../../services/driver_service.dart';
 import '../../theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../home_screen.dart';
 import 'login_screen.dart';
 
@@ -43,9 +44,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
     if (_passwordController.text != _confirmController.text) {
-      setState(() => _errorMessage = 'Les mots de passe ne correspondent pas.');
+      setState(() => _errorMessage = l10n.registerScreen_passwordMismatch);
       return;
     }
 
@@ -98,13 +100,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.background,
         elevation: 0,
-        title: Text('Inscription Livreur', style: TextStyle(color: colors.primary)),
+        title: Text(l10n.registerScreen_title, style: TextStyle(color: colors.primary)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: SafeArea(
@@ -148,51 +151,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 24),
               _buildField(
                 controller: _nameController,
-                label: 'Nom complet',
+                label: l10n.registerScreen_nameLabel,
                 icon: Icons.person_outline,
                 colors: colors,
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Nom requis' : null,
+                    (v == null || v.trim().isEmpty) ? l10n.registerScreen_nameRequired : null,
               ),
               const SizedBox(height: 14),
               _buildField(
                 controller: _emailController,
-                label: 'Email',
+                label: l10n.registerScreen_emailLabel,
                 icon: Icons.email_outlined,
                 colors: colors,
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) =>
-                    (v == null || !v.contains('@')) ? 'Email invalide' : null,
+                    (v == null || !v.contains('@')) ? l10n.registerScreen_emailInvalid : null,
               ),
               const SizedBox(height: 14),
               _buildField(
                 controller: _phoneController,
-                label: 'Numéro de téléphone',
+                label: l10n.registerScreen_phoneLabel,
                 icon: Icons.phone_outlined,
                 colors: colors,
                 keyboardType: TextInputType.phone,
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Téléphone requis' : null,
+                    (v == null || v.trim().isEmpty) ? l10n.registerScreen_phoneRequired : null,
               ),
               const SizedBox(height: 14),
               _buildField(
                 controller: _passwordController,
-                label: 'Mot de passe',
+                label: l10n.registerScreen_passwordLabel,
                 icon: Icons.lock_outline,
                 colors: colors,
                 obscureText: true,
                 validator: (v) =>
-                    (v == null || v.length < 6) ? '6 caractères minimum' : null,
+                    (v == null || v.length < 6) ? l10n.registerScreen_passwordMinLength : null,
               ),
               const SizedBox(height: 14),
               _buildField(
                 controller: _confirmController,
-                label: 'Confirmer le mot de passe',
+                label: l10n.registerScreen_confirmPasswordLabel,
                 icon: Icons.lock_outline,
                 colors: colors,
                 obscureText: true,
                 validator: (v) =>
-                    (v == null || v.isEmpty) ? 'Confirmation requise' : null,
+                    (v == null || v.isEmpty) ? l10n.registerScreen_confirmRequired : null,
               ),
               if (_errorMessage != null) ...[
                 const SizedBox(height: 14),
@@ -218,8 +221,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: CircularProgressIndicator(
                               color: Colors.white, strokeWidth: 2.4),
                         )
-                      : const Text("S'inscrire",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      : Text(l10n.registerScreen_submitButton,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 ),
               ),
               const SizedBox(height: 14),
@@ -228,7 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const LoginScreen()),
                   ),
-                  child: Text('Déjà un compte ? Se connecter',
+                  child: Text(l10n.registerScreen_alreadyAccount,
                       style: TextStyle(color: colors.interface)),
                 ),
               ),

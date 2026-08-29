@@ -14,5 +14,19 @@
   "loginScreen_emailInvalid": "Barua pepe si sahihi",
   "loginScreen_passwordRequired": "Nywila inahitajika",
   "loginScreen_resetEmailSent": "Barua pepe ya kuweka upya nywila imetumwa.",
-  "loginScreen_enterEmailToReset": "Weka barua pepe yako kuweka upya."
+  "loginScreen_enterEmailToReset": "Weka barua pepe yako kuweka upya.",
+  "registerScreen_title": "Usajili wa Dereva",
+  "registerScreen_nameLabel": "Jina kamili",
+  "registerScreen_nameRequired": "Jina linahitajika",
+  "registerScreen_emailLabel": "Barua pepe",
+  "registerScreen_emailInvalid": "Barua pepe si sahihi",
+  "registerScreen_phoneLabel": "Nambari ya simu",
+  "registerScreen_phoneRequired": "Simu inahitajika",
+  "registerScreen_passwordLabel": "Nywila",
+  "registerScreen_passwordMinLength": "Angalau herufi 6",
+  "registerScreen_confirmPasswordLabel": "Thibitisha nywila",
+  "registerScreen_confirmRequired": "Uthibitisho unahitajika",
+  "registerScreen_passwordMismatch": "Nywila hazifanani.",
+  "registerScreen_submitButton": "Jisajili",
+  "registerScreen_alreadyAccount": "Una akaunti tayari? Ingia"
 }
