@@ -60,9 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _checkForUpdate() async {
-    final info = await VersionService().checkForUpdate();
-    if (info != null && mounted) {
-      showUpdateDialog(context, info: info);
+    try {
+      final info = await VersionService().checkForUpdate();
+      if (info != null && mounted) {
+        showUpdateDialog(context, info: info);
+      }
+    } catch (_) {
+      // Vérification silencieuse : pas de blocage si Firestore/réseau échoue.
     }
   }
 
