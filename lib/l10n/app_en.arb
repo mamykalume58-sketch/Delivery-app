@@ -3,5 +3,16 @@
   "navAccueil": "Home",
   "navCarte": "Map",
   "navGains": "Earnings",
-  "navProfil": "Profile"
+  "navProfil": "Profile",
+  "loginScreen_title": "Driver Login",
+  "loginScreen_subtitle": "Access your DavidSTORE deliveries",
+  "loginScreen_emailLabel": "Email",
+  "loginScreen_passwordLabel": "Password",
+  "loginScreen_forgotPassword": "Forgot password?",
+  "loginScreen_submitButton": "Sign in",
+  "loginScreen_noAccount": "No account? Sign up",
+  "loginScreen_emailInvalid": "Invalid email",
+  "loginScreen_passwordRequired": "Password required",
+  "loginScreen_resetEmailSent": "Password reset email sent.",
+  "loginScreen_enterEmailToReset": "Enter your email to reset."
 }

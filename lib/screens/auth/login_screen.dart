@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
 import '../../theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../home_screen.dart';
 import 'register_screen.dart';
 
@@ -46,15 +47,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _forgotPassword() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_emailController.text.trim().isEmpty) {
-      setState(() => _errorMessage = 'Entrez votre email pour réinitialiser.');
+      setState(() => _errorMessage = l10n.loginScreen_enterEmailToReset);
       return;
     }
     try {
       await _authService.resetPassword(_emailController.text.trim());
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email de réinitialisation envoyé.')),
+        SnackBar(content: Text(l10n.loginScreen_resetEmailSent)),
       );
     } catch (e) {
       setState(() => _errorMessage = e.toString());
@@ -71,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -80,13 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
             children: [
-              Text('Connexion Livreur',
+              Text(l10n.loginScreen_title,
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: colors.primary)),
               const SizedBox(height: 8),
-              Text('Accédez à vos livraisons DavidSTORE',
+              Text(l10n.loginScreen_subtitle,
                   style: TextStyle(fontSize: 14, color: colors.textGrey)),
               const SizedBox(height: 32),
               TextFormField(
@@ -94,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(color: colors.primary),
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: l10n.loginScreen_emailLabel,
                   prefixIcon: Icon(Icons.email_outlined, color: colors.textGrey),
                   filled: true,
                   fillColor: colors.surface,
@@ -104,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 validator: (v) =>
-                    (v == null || !v.contains('@')) ? 'Email invalide' : null,
+                    (v == null || !v.contains('@')) ? l10n.loginScreen_emailInvalid : null,
               ),
               const SizedBox(height: 14),
               TextFormField(
@@ -112,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
                 style: TextStyle(color: colors.primary),
                 decoration: InputDecoration(
-                  labelText: 'Mot de passe',
+                  labelText: l10n.loginScreen_passwordLabel,
                   prefixIcon: Icon(Icons.lock_outline, color: colors.textGrey),
                   filled: true,
                   fillColor: colors.surface,
@@ -122,13 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 validator: (v) =>
-                    (v == null || v.isEmpty) ? 'Mot de passe requis' : null,
+                    (v == null || v.isEmpty) ? l10n.loginScreen_passwordRequired : null,
               ),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: _forgotPassword,
-                  child: Text('Mot de passe oublié ?',
+                  child: Text(l10n.loginScreen_forgotPassword,
                       style: TextStyle(color: colors.interface, fontSize: 13)),
                 ),
               ),
@@ -156,8 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: CircularProgressIndicator(
                               color: Colors.white, strokeWidth: 2.4),
                         )
-                      : const Text('Se connecter',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      : Text(l10n.loginScreen_submitButton,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 ),
               ),
               const SizedBox(height: 16),
@@ -166,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => const RegisterScreen()),
                   ),
-                  child: Text("Pas de compte ? S'inscrire",
+                  child: Text(l10n.loginScreen_noAccount,
                       style: TextStyle(color: colors.interface)),
                 ),
               ),

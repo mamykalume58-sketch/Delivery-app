@@ -3,5 +3,16 @@
   "navAccueil": "Accueil",
   "navCarte": "Carte",
   "navGains": "Gains",
-  "navProfil": "Profil"
+  "navProfil": "Profil",
+  "loginScreen_title": "Connexion Livreur",
+  "loginScreen_subtitle": "Accédez à vos livraisons DavidSTORE",
+  "loginScreen_emailLabel": "Email",
+  "loginScreen_passwordLabel": "Mot de passe",
+  "loginScreen_forgotPassword": "Mot de passe oublié ?",
+  "loginScreen_submitButton": "Se connecter",
+  "loginScreen_noAccount": "Pas de compte ? S'inscrire",
+  "loginScreen_emailInvalid": "Email invalide",
+  "loginScreen_passwordRequired": "Mot de passe requis",
+  "loginScreen_resetEmailSent": "Email de réinitialisation envoyé.",
+  "loginScreen_enterEmailToReset": "Entrez votre email pour réinitialiser."
 }

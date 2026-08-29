@@ -3,5 +3,16 @@
   "navAccueil": "Nyumbani",
   "navCarte": "Ramani",
   "navGains": "Mapato",
-  "navProfil": "Wasifu"
+  "navProfil": "Wasifu",
+  "loginScreen_title": "Kuingia kwa Dereva",
+  "loginScreen_subtitle": "Fikia utoaji wako wa DavidSTORE",
+  "loginScreen_emailLabel": "Barua pepe",
+  "loginScreen_passwordLabel": "Nywila",
+  "loginScreen_forgotPassword": "Umesahau nywila?",
+  "loginScreen_submitButton": "Ingia",
+  "loginScreen_noAccount": "Huna akaunti? Jisajili",
+  "loginScreen_emailInvalid": "Barua pepe si sahihi",
+  "loginScreen_passwordRequired": "Nywila inahitajika",
+  "loginScreen_resetEmailSent": "Barua pepe ya kuweka upya nywila imetumwa.",
+  "loginScreen_enterEmailToReset": "Weka barua pepe yako kuweka upya."
 }
