@@ -42,5 +42,11 @@
   "homeScreen_today": "Today",
   "homeScreen_deliveries": "Deliveries",
   "homeScreen_status": "Status",
-  "homeScreen_availableStatus": "Available"
+  "homeScreen_availableStatus": "Available",
+  "mesGainsScreen_title": "My earnings",
+  "mesGainsScreen_notConnected": "Not signed in",
+  "mesGainsScreen_todayGains": "Today's earnings",
+  "mesGainsScreen_history": "Earnings history",
+  "mesGainsScreen_noDeliveries": "No completed deliveries yet.",
+  "mesGainsScreen_error": "Error: {error}"
 }

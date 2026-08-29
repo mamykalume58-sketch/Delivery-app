@@ -42,5 +42,11 @@
   "homeScreen_today": "Leo",
   "homeScreen_deliveries": "Utoaji",
   "homeScreen_status": "Hali",
-  "homeScreen_availableStatus": "Inapatikana"
+  "homeScreen_availableStatus": "Inapatikana",
+  "mesGainsScreen_title": "Mapato yangu",
+  "mesGainsScreen_notConnected": "Haujaingia",
+  "mesGainsScreen_todayGains": "Mapato ya leo",
+  "mesGainsScreen_history": "Historia ya mapato",
+  "mesGainsScreen_noDeliveries": "Hakuna utoaji uliokamilika bado.",
+  "mesGainsScreen_error": "Hitilafu: {error}"
 }

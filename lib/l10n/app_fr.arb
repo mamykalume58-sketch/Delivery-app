@@ -52,5 +52,16 @@
     "placeholders": {
       "count": {}
     }
+  },
+  "mesGainsScreen_title": "Mes gains",
+  "mesGainsScreen_notConnected": "Non connecté",
+  "mesGainsScreen_todayGains": "Gains du jour",
+  "mesGainsScreen_history": "Historique des gains",
+  "mesGainsScreen_noDeliveries": "Aucune livraison terminée pour le moment.",
+  "mesGainsScreen_error": "Erreur : {error}",
+  "@mesGainsScreen_error": {
+    "placeholders": {
+      "error": {}
+    }
   }
 }

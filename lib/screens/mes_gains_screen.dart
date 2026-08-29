@@ -6,6 +6,7 @@ import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
+import '../l10n/app_localizations.dart';
 
 class MesGainsScreen extends StatefulWidget {
   const MesGainsScreen({super.key});
@@ -29,6 +30,7 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -36,11 +38,11 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Mes gains', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.mesGainsScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null || _historyStream == null
-          ? Center(child: Text('Non connecté', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.mesGainsScreen_notConnected, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
               stream: _historyStream,
               builder: (context, snapshot) {
@@ -49,7 +51,7 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Text(
-                        'Erreur: ${snapshot.error}',
+                        l10n.mesGainsScreen_error(snapshot.error.toString()),
                         style: TextStyle(color: colors.error, fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
@@ -91,7 +93,7 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Gains du jour', style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 13)),
+                          Text(l10n.mesGainsScreen_todayGains, style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 13)),
                           const SizedBox(height: 6),
                           Text(
                             '$todayGains FC',
@@ -99,19 +101,19 @@ class _MesGainsScreenState extends State<MesGainsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${todayOrders.length} livraison${todayOrders.length > 1 ? 's' : ''}',
+                            l10n.homeScreen_deliveryCount(todayOrders.length),
                             style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 13),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text('Historique des gains', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.primary)),
+                    Text(l10n.mesGainsScreen_history, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.primary)),
                     const SizedBox(height: 10),
                     if (sortedDays.isEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Center(child: Text('Aucune livraison terminée pour le moment.', style: TextStyle(color: colors.textGrey))),
+                        child: Center(child: Text(l10n.mesGainsScreen_noDeliveries, style: TextStyle(color: colors.textGrey))),
                       )
                     else
                       ...sortedDays.map((day) {
