@@ -28,5 +28,19 @@
   "registerScreen_confirmRequired": "Uthibitisho unahitajika",
   "registerScreen_passwordMismatch": "Nywila hazifanani.",
   "registerScreen_submitButton": "Jisajili",
-  "registerScreen_alreadyAccount": "Una akaunti tayari? Ingia"
+  "registerScreen_alreadyAccount": "Una akaunti tayari? Ingia",
+  "homeScreen_sessionExpired": "Kikao kimeisha. Tafadhali ingia tena.",
+  "homeScreen_driverProfileNotFound": "Wasifu wa dereva haujapatikana.",
+  "homeScreen_newDelivery": "Utoaji mpya",
+  "homeScreen_availableCount": "{count} zinapatikana",
+  "homeScreen_inProgress": "Zinaendelea",
+  "homeScreen_deliveryCount": "utoaji {count}",
+  "homeScreen_history": "Historia",
+  "homeScreen_viewDeliveries": "Angalia utoaji wako",
+  "homeScreen_online": "Mtandaoni",
+  "homeScreen_offline": "Nje ya mtandao",
+  "homeScreen_today": "Leo",
+  "homeScreen_deliveries": "Utoaji",
+  "homeScreen_status": "Hali",
+  "homeScreen_availableStatus": "Inapatikana"
 }

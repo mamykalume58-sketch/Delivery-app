@@ -18,6 +18,7 @@ import '../models/notification_model.dart';
 import '../models/order_model.dart';
 import '../services/version_service.dart';
 import '../widgets/update_dialog.dart';
+import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -73,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = _authService.currentUser?.uid;
 
     if (uid == null) {
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // filet de sécurité seulement.
       return Scaffold(
         backgroundColor: colors.background,
-        body: const Center(child: Text('Session expirée. Reconnectez-vous.')),
+        body: Center(child: Text(l10n.homeScreen_sessionExpired)),
       );
     }
 
@@ -96,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!snapshot.hasData || !snapshot.data!.exists) {
           return Scaffold(
             backgroundColor: colors.background,
-            body: const Center(child: Text('Profil livreur introuvable.')),
+            body: Center(child: Text(l10n.homeScreen_driverProfileNotFound)),
           );
         }
 
@@ -127,8 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icons.inventory_2_rounded,
                               iconBg: colors.interface.withValues(alpha: 0.1),
                               iconColor: colors.interface,
-                              title: 'Nouvelle livraison',
-                              subtitle: '$count disponible(s)',
+                              title: l10n.homeScreen_newDelivery,
+                              subtitle: l10n.homeScreen_availableCount(count),
                               onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (_) => const NouvelleLivraisonScreen()),
@@ -146,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icons.local_shipping_rounded,
                               iconBg: colors.gold.withValues(alpha: 0.15),
                               iconColor: colors.gold,
-                              title: 'En cours',
-                              subtitle: '$inProgressCount livraison(s)',
+                              title: l10n.homeScreen_inProgress,
+                              subtitle: l10n.homeScreen_deliveryCount(inProgressCount),
                               onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (_) => const MesLivraisonsScreen()),
@@ -161,8 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.folder_rounded,
                           iconBg: colors.divider,
                           iconColor: colors.textGrey,
-                          title: 'Historique',
-                          subtitle: 'Voir vos livraisons',
+                          title: l10n.homeScreen_history,
+                          subtitle: l10n.homeScreen_viewDeliveries,
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(builder: (_) => const HistoriqueScreen()),
@@ -291,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      driver.isAvailable ? 'En ligne' : 'Hors ligne',
+                      driver.isAvailable ? l10n.homeScreen_online : l10n.homeScreen_offline,
                       style: TextStyle(fontSize: 13, color: colors.textGrey),
                     ),
                   ],
@@ -350,8 +352,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Aujourd'hui",
+                  Text(
+                    l10n.homeScreen_today,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
@@ -362,11 +364,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _statItem('$todayDeliveries', 'Livraisons'),
+                      _statItem('$todayDeliveries', l10n.homeScreen_deliveries),
                       _statDivider(),
-                      _statItem('$inProgress', 'En cours'),
+                      _statItem('$inProgress', l10n.homeScreen_inProgress),
                       _statDivider(),
-                      _statItem('${_formatFC(todayEarnings)} FC', 'Gains'),
+                      _statItem('${_formatFC(todayEarnings)} FC', l10n.navGains),
                     ],
                   ),
                 ],
@@ -494,7 +496,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Statut',
+                l10n.homeScreen_status,
                 style: TextStyle(fontSize: 13, color: colors.textGrey),
               ),
               const SizedBox(height: 4),
@@ -511,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    driver.isAvailable ? 'Disponible' : 'Hors ligne',
+                    driver.isAvailable ? l10n.homeScreen_availableStatus : l10n.homeScreen_offline,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,

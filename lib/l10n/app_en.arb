@@ -28,5 +28,19 @@
   "registerScreen_confirmRequired": "Confirmation required",
   "registerScreen_passwordMismatch": "Passwords do not match.",
   "registerScreen_submitButton": "Sign up",
-  "registerScreen_alreadyAccount": "Already have an account? Sign in"
+  "registerScreen_alreadyAccount": "Already have an account? Sign in",
+  "homeScreen_sessionExpired": "Session expired. Please sign in again.",
+  "homeScreen_driverProfileNotFound": "Driver profile not found.",
+  "homeScreen_newDelivery": "New delivery",
+  "homeScreen_availableCount": "{count} available",
+  "homeScreen_inProgress": "In progress",
+  "homeScreen_deliveryCount": "{count} delivery(ies)",
+  "homeScreen_history": "History",
+  "homeScreen_viewDeliveries": "View your deliveries",
+  "homeScreen_online": "Online",
+  "homeScreen_offline": "Offline",
+  "homeScreen_today": "Today",
+  "homeScreen_deliveries": "Deliveries",
+  "homeScreen_status": "Status",
+  "homeScreen_availableStatus": "Available"
 }

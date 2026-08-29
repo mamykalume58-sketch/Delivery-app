@@ -28,5 +28,29 @@
   "registerScreen_confirmRequired": "Confirmation requise",
   "registerScreen_passwordMismatch": "Les mots de passe ne correspondent pas.",
   "registerScreen_submitButton": "S'inscrire",
-  "registerScreen_alreadyAccount": "Déjà un compte ? Se connecter"
+  "registerScreen_alreadyAccount": "Déjà un compte ? Se connecter",
+  "homeScreen_sessionExpired": "Session expirée. Reconnectez-vous.",
+  "homeScreen_driverProfileNotFound": "Profil livreur introuvable.",
+  "homeScreen_newDelivery": "Nouvelle livraison",
+  "homeScreen_availableCount": "{count} disponible(s)",
+  "homeScreen_inProgress": "En cours",
+  "homeScreen_deliveryCount": "{count} livraison(s)",
+  "homeScreen_history": "Historique",
+  "homeScreen_viewDeliveries": "Voir vos livraisons",
+  "homeScreen_online": "En ligne",
+  "homeScreen_offline": "Hors ligne",
+  "homeScreen_today": "Aujourd'hui",
+  "homeScreen_deliveries": "Livraisons",
+  "homeScreen_status": "Statut",
+  "homeScreen_availableStatus": "Disponible",
+  "@homeScreen_availableCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "@homeScreen_deliveryCount": {
+    "placeholders": {
+      "count": {}
+    }
+  }
 }
