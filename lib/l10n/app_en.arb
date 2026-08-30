@@ -87,5 +87,21 @@
   "mesLivraisonsScreen_statusPreparing": "Preparing",
   "mesLivraisonsScreen_statusShipped": "Shipped",
   "mesLivraisonsScreen_statusInTransit": "In transit",
-  "mesLivraisonsScreen_statusOutForDelivery": "Out for delivery"
+  "mesLivraisonsScreen_statusOutForDelivery": "Out for delivery",
+  "aideSupportScreen_title": "Help & Support",
+  "aideSupportScreen_faqTitle": "Frequently asked questions",
+  "aideSupportScreen_needMoreHelp": "Need more help?",
+  "aideSupportScreen_teamAvailable": "Our team is available on WhatsApp to answer your questions.",
+  "aideSupportScreen_contactWhatsApp": "Contact on WhatsApp",
+  "aideSupportScreen_cantOpenWhatsApp": "Unable to open WhatsApp.",
+  "aideSupportScreen_faq1Q": "How do I accept a new delivery?",
+  "aideSupportScreen_faq1A": "Go to \"New delivery\" from Home, then tap \"Accept\" on the order you're interested in. Once accepted, it appears in \"In progress\".",
+  "aideSupportScreen_faq2Q": "How do I confirm a delivery at the customer's location?",
+  "aideSupportScreen_faq2A": "Once you arrive, show the customer the QR Code on the verification screen. The customer will give you a 4-digit PIN to confirm the delivery.",
+  "aideSupportScreen_faq3Q": "What if the customer doesn't answer?",
+  "aideSupportScreen_faq3A": "First try calling them with the phone button on the tracking screen. If that doesn't work, contact support via WhatsApp below.",
+  "aideSupportScreen_faq4Q": "When do I get paid for my deliveries?",
+  "aideSupportScreen_faq4A": "Your earnings are visible in the \"Earnings\" tab. Payment details and frequency will be communicated to you by support.",
+  "aideSupportScreen_faq5Q": "I can't enable my location, what should I do?",
+  "aideSupportScreen_faq5A": "Check that location is enabled in your phone settings, and that the app has permission to access it. Restart the app if needed."
 }

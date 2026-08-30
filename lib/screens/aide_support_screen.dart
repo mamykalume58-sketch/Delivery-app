@@ -1,39 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_colors.dart';
+import '../l10n/app_localizations.dart';
 
 class AideSupportScreen extends StatelessWidget {
   const AideSupportScreen({super.key});
 
-  static const List<Map<String, String>> _faq = [
-    {
-      'question': 'Comment accepter une nouvelle livraison ?',
-      'reponse': 'Va dans "Nouvelle livraison" depuis l\'Accueil, puis appuie sur "Accepter" sur la commande qui t\'intéresse. Une fois acceptée, elle apparaît dans "En cours".',
-    },
-    {
-      'question': 'Comment confirmer une livraison chez le client ?',
-      'reponse': 'Une fois arrivé chez le client, montre-lui le QR Code affiché sur l\'écran de vérification. Le client te communique un PIN à 4 chiffres pour confirmer la livraison.',
-    },
-    {
-      'question': 'Que faire si le client ne répond pas ?',
-      'reponse': 'Essaie d\'abord de l\'appeler avec le bouton téléphone sur l\'écran de suivi. Si ça ne marche pas, contacte le support via WhatsApp ci-dessous.',
-    },
-    {
-      'question': 'Quand suis-je payé pour mes livraisons ?',
-      'reponse': 'Tes gains sont visibles dans l\'onglet "Gains". Le détail des versements et de la fréquence de paiement te sera communiqué par le support.',
-    },
-    {
-      'question': 'Je ne peux pas activer ma localisation, que faire ?',
-      'reponse': 'Vérifie que la localisation est activée dans les réglages de ton téléphone, et que l\'application a bien la permission d\'y accéder. Redémarre l\'app si besoin.',
-    },
-  ];
+  List<Map<String, String>> _faq(AppLocalizations l10n) => [
+        {'question': l10n.aideSupportScreen_faq1Q, 'reponse': l10n.aideSupportScreen_faq1A},
+        {'question': l10n.aideSupportScreen_faq2Q, 'reponse': l10n.aideSupportScreen_faq2A},
+        {'question': l10n.aideSupportScreen_faq3Q, 'reponse': l10n.aideSupportScreen_faq3A},
+        {'question': l10n.aideSupportScreen_faq4Q, 'reponse': l10n.aideSupportScreen_faq4A},
+        {'question': l10n.aideSupportScreen_faq5Q, 'reponse': l10n.aideSupportScreen_faq5A},
+      ];
 
   Future<void> _openWhatsApp(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final url = Uri.parse('https://wa.me/243852849473');
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Impossible d\'ouvrir WhatsApp.')),
+          SnackBar(content: Text(l10n.aideSupportScreen_cantOpenWhatsApp)),
         );
       }
     }
@@ -42,20 +29,22 @@ class AideSupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
+    final faq = _faq(l10n);
 
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Aide & Support', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.aideSupportScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
           Text(
-            'Questions fréquentes',
+            l10n.aideSupportScreen_faqTitle,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary),
           ),
           const SizedBox(height: 12),
@@ -69,11 +58,11 @@ class AideSupportScreen extends StatelessWidget {
               data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: Column(
                 children: [
-                  for (int i = 0; i < _faq.length; i++) ...[
+                  for (int i = 0; i < faq.length; i++) ...[
                     if (i > 0) Divider(height: 1, color: colors.divider),
                     ExpansionTile(
                       title: Text(
-                        _faq[i]['question']!,
+                        faq[i]['question']!,
                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.primary),
                       ),
                       iconColor: colors.interface,
@@ -83,7 +72,7 @@ class AideSupportScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            _faq[i]['reponse']!,
+                            faq[i]['reponse']!,
                             style: TextStyle(fontSize: 13, color: colors.textGrey),
                           ),
                         ),
@@ -96,7 +85,7 @@ class AideSupportScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Besoin d\'aide supplémentaire ?',
+            l10n.aideSupportScreen_needMoreHelp,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary),
           ),
           const SizedBox(height: 12),
@@ -112,7 +101,7 @@ class AideSupportScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Notre équipe est disponible sur WhatsApp pour répondre à tes questions.',
+                  l10n.aideSupportScreen_teamAvailable,
                   style: TextStyle(fontSize: 13, color: colors.textGrey),
                 ),
                 const SizedBox(height: 12),
@@ -121,7 +110,7 @@ class AideSupportScreen extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () => _openWhatsApp(context),
                     icon: const Icon(Icons.chat, color: Colors.white, size: 18),
-                    label: const Text('Contacter sur WhatsApp', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                    label: Text(l10n.aideSupportScreen_contactWhatsApp, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colors.success,
                       padding: const EdgeInsets.symmetric(vertical: 12),

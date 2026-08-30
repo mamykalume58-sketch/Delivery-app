@@ -87,5 +87,21 @@
   "mesLivraisonsScreen_statusPreparing": "Inaandaliwa",
   "mesLivraisonsScreen_statusShipped": "Imesafirishwa",
   "mesLivraisonsScreen_statusInTransit": "Njiani",
-  "mesLivraisonsScreen_statusOutForDelivery": "Inatolewa"
+  "mesLivraisonsScreen_statusOutForDelivery": "Inatolewa",
+  "aideSupportScreen_title": "Msaada",
+  "aideSupportScreen_faqTitle": "Maswali yanayoulizwa mara kwa mara",
+  "aideSupportScreen_needMoreHelp": "Unahitaji msaada zaidi?",
+  "aideSupportScreen_teamAvailable": "Timu yetu ipo tayari kwenye WhatsApp kujibu maswali yako.",
+  "aideSupportScreen_contactWhatsApp": "Wasiliana kwenye WhatsApp",
+  "aideSupportScreen_cantOpenWhatsApp": "Imeshindwa kufungua WhatsApp.",
+  "aideSupportScreen_faq1Q": "Ninawezaje kukubali utoaji mpya?",
+  "aideSupportScreen_faq1A": "Nenda kwenye \"Utoaji mpya\" kutoka Nyumbani, kisha bonyeza \"Kubali\" kwenye agizo unalotaka. Baada ya kukubaliwa, litaonekana kwenye \"Zinaendelea\".",
+  "aideSupportScreen_faq2Q": "Ninawezaje kuthibitisha utoaji kwa mteja?",
+  "aideSupportScreen_faq2A": "Ukifika kwa mteja, mwonyeshe QR Code iliyoonyeshwa kwenye skrini ya uthibitisho. Mteja atakupa PIN ya tarakimu 4 kuthibitisha utoaji.",
+  "aideSupportScreen_faq3Q": "Nifanye nini kama mteja hajibu?",
+  "aideSupportScreen_faq3A": "Jaribu kwanza kumpigia kwa kitufe cha simu kwenye skrini ya ufuatiliaji. Ikiwa haifanyi kazi, wasiliana na msaada kupitia WhatsApp hapa chini.",
+  "aideSupportScreen_faq4Q": "Ni lini nitalipwa kwa utoaji wangu?",
+  "aideSupportScreen_faq4A": "Mapato yako yanaonekana kwenye kichupo cha \"Mapato\". Maelezo ya malipo na mzunguko yatakujulishwa na msaada.",
+  "aideSupportScreen_faq5Q": "Siwezi kuwasha eneo langu, nifanye nini?",
+  "aideSupportScreen_faq5A": "Hakikisha eneo limewashwa kwenye mipangilio ya simu yako, na kwamba programu ina ruhusa ya kuifikia. Anzisha upya programu ikihitajika."
 }

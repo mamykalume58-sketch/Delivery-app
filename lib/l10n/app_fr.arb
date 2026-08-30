@@ -117,5 +117,21 @@
   "mesLivraisonsScreen_statusPreparing": "En préparation",
   "mesLivraisonsScreen_statusShipped": "Expédiée",
   "mesLivraisonsScreen_statusInTransit": "En transit",
-  "mesLivraisonsScreen_statusOutForDelivery": "En livraison"
+  "mesLivraisonsScreen_statusOutForDelivery": "En livraison",
+  "aideSupportScreen_title": "Aide & Support",
+  "aideSupportScreen_faqTitle": "Questions fréquentes",
+  "aideSupportScreen_needMoreHelp": "Besoin d'aide supplémentaire ?",
+  "aideSupportScreen_teamAvailable": "Notre équipe est disponible sur WhatsApp pour répondre à tes questions.",
+  "aideSupportScreen_contactWhatsApp": "Contacter sur WhatsApp",
+  "aideSupportScreen_cantOpenWhatsApp": "Impossible d'ouvrir WhatsApp.",
+  "aideSupportScreen_faq1Q": "Comment accepter une nouvelle livraison ?",
+  "aideSupportScreen_faq1A": "Va dans \"Nouvelle livraison\" depuis l'Accueil, puis appuie sur \"Accepter\" sur la commande qui t'intéresse. Une fois acceptée, elle apparaît dans \"En cours\".",
+  "aideSupportScreen_faq2Q": "Comment confirmer une livraison chez le client ?",
+  "aideSupportScreen_faq2A": "Une fois arrivé chez le client, montre-lui le QR Code affiché sur l'écran de vérification. Le client te communique un PIN à 4 chiffres pour confirmer la livraison.",
+  "aideSupportScreen_faq3Q": "Que faire si le client ne répond pas ?",
+  "aideSupportScreen_faq3A": "Essaie d'abord de l'appeler avec le bouton téléphone sur l'écran de suivi. Si ça ne marche pas, contacte le support via WhatsApp ci-dessous.",
+  "aideSupportScreen_faq4Q": "Quand suis-je payé pour mes livraisons ?",
+  "aideSupportScreen_faq4A": "Tes gains sont visibles dans l'onglet \"Gains\". Le détail des versements et de la fréquence de paiement te sera communiqué par le support.",
+  "aideSupportScreen_faq5Q": "Je ne peux pas activer ma localisation, que faire ?",
+  "aideSupportScreen_faq5A": "Vérifie que la localisation est activée dans les réglages de ton téléphone, et que l'application a bien la permission d'y accéder. Redémarre l'app si besoin."
 }
