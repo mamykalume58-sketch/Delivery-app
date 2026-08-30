@@ -81,5 +81,11 @@
   "historiqueScreen_sessionExpired": "Session expired.",
   "historiqueScreen_noDeliveries": "No deliveries completed in the last 4 days.",
   "historiqueScreen_orderNumber": "Order #{orderNumber}",
-  "historiqueScreen_delivered": "Delivered"
+  "historiqueScreen_delivered": "Delivered",
+  "mesLivraisonsScreen_noOrders": "No deliveries in progress right now.",
+  "mesLivraisonsScreen_viewDetails": "View details",
+  "mesLivraisonsScreen_statusPreparing": "Preparing",
+  "mesLivraisonsScreen_statusShipped": "Shipped",
+  "mesLivraisonsScreen_statusInTransit": "In transit",
+  "mesLivraisonsScreen_statusOutForDelivery": "Out for delivery"
 }

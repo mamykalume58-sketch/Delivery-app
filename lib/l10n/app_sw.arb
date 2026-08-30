@@ -81,5 +81,11 @@
   "historiqueScreen_sessionExpired": "Kikao kimeisha.",
   "historiqueScreen_noDeliveries": "Hakuna utoaji uliokamilika katika siku 4 zilizopita.",
   "historiqueScreen_orderNumber": "Agizo #{orderNumber}",
-  "historiqueScreen_delivered": "Imetolewa"
+  "historiqueScreen_delivered": "Imetolewa",
+  "mesLivraisonsScreen_noOrders": "Hakuna utoaji unaoendelea kwa sasa.",
+  "mesLivraisonsScreen_viewDetails": "Angalia maelezo",
+  "mesLivraisonsScreen_statusPreparing": "Inaandaliwa",
+  "mesLivraisonsScreen_statusShipped": "Imesafirishwa",
+  "mesLivraisonsScreen_statusInTransit": "Njiani",
+  "mesLivraisonsScreen_statusOutForDelivery": "Inatolewa"
 }

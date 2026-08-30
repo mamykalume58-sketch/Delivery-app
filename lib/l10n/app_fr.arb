@@ -111,5 +111,11 @@
     "placeholders": {
       "orderNumber": {}
     }
-  }
+  },
+  "mesLivraisonsScreen_noOrders": "Aucune livraison en cours pour le moment.",
+  "mesLivraisonsScreen_viewDetails": "Voir les détails",
+  "mesLivraisonsScreen_statusPreparing": "En préparation",
+  "mesLivraisonsScreen_statusShipped": "Expédiée",
+  "mesLivraisonsScreen_statusInTransit": "En transit",
+  "mesLivraisonsScreen_statusOutForDelivery": "En livraison"
 }

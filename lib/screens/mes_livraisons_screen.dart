@@ -3,23 +3,26 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
+import '../l10n/app_localizations.dart';
 import 'en_cours_screen.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
 
-const Map<String, String> _statusLabels = {
-  'preparing': 'En préparation',
-  'shipped': 'Expédiée',
-  'in_transit': 'En transit',
-  'out_for_delivery': 'En livraison',
-};
-
 class MesLivraisonsScreen extends StatelessWidget {
   const MesLivraisonsScreen({super.key});
+
+  Map<String, String> _statusLabels(AppLocalizations l10n) => {
+        'preparing': l10n.mesLivraisonsScreen_statusPreparing,
+        'shipped': l10n.mesLivraisonsScreen_statusShipped,
+        'in_transit': l10n.mesLivraisonsScreen_statusInTransit,
+        'out_for_delivery': l10n.mesLivraisonsScreen_statusOutForDelivery,
+      };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
+    final statusLabels = _statusLabels(l10n);
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -27,11 +30,11 @@ class MesLivraisonsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('En cours', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.homeScreen_inProgress, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null
-          ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.historiqueScreen_sessionExpired, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
               stream: OrderService().watchInProgressOrders(uid),
               builder: (context, snapshot) {
@@ -49,7 +52,7 @@ class MesLivraisonsScreen extends StatelessWidget {
                           Icon(Icons.local_shipping_outlined, size: 56, color: colors.textGrey),
                           const SizedBox(height: 16),
                           Text(
-                            "Aucune livraison en cours pour le moment.",
+                            l10n.mesLivraisonsScreen_noOrders,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: colors.textGrey, fontSize: 14),
                           ),
@@ -83,14 +86,14 @@ class MesLivraisonsScreen extends StatelessWidget {
                                 children: [
                                   Icon(Icons.local_shipping_outlined, color: colors.interface, size: 18),
                                   const SizedBox(width: 8),
-                                  Text('Commande #${order.orderNumber}', style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
+                                  Text(l10n.historiqueScreen_orderNumber(order.orderNumber), style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
                                 ],
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(color: colors.interface.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                                 child: Text(
-                                  _statusLabels[order.status] ?? order.status,
+                                  statusLabels[order.status] ?? order.status,
                                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colors.interface),
                                 ),
                               ),
@@ -133,7 +136,7 @@ class MesLivraisonsScreen extends StatelessWidget {
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.symmetric(vertical: 12),
                               ),
-                              child: const Text('Voir les détails', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                              child: Text(l10n.mesLivraisonsScreen_viewDetails, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ),
                           ),
                         ],
