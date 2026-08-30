@@ -3,6 +3,7 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
+import '../l10n/app_localizations.dart';
 import 'livraison_terminee_screen.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
@@ -13,6 +14,7 @@ class HistoriqueScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -20,11 +22,11 @@ class HistoriqueScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Historique', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.homeScreen_history, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null
-          ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.historiqueScreen_sessionExpired, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
               stream: OrderService().watchOrderHistory(uid),
               builder: (context, snapshot) {
@@ -42,7 +44,7 @@ class HistoriqueScreen extends StatelessWidget {
                           Icon(Icons.folder_outlined, size: 56, color: colors.textGrey),
                           const SizedBox(height: 16),
                           Text(
-                            "Aucune livraison terminée dans les 4 derniers jours.",
+                            l10n.historiqueScreen_noDeliveries,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: colors.textGrey, fontSize: 14),
                           ),
@@ -84,14 +86,14 @@ class HistoriqueScreen extends StatelessWidget {
                                   children: [
                                     Icon(Icons.local_shipping_outlined, color: colors.interface, size: 18),
                                     const SizedBox(width: 8),
-                                    Text('Commande #${order.orderNumber}', style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
+                                    Text(l10n.historiqueScreen_orderNumber(order.orderNumber), style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
                                   ],
                                 ),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                   decoration: BoxDecoration(color: colors.success.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                                   child: Text(
-                                    'Livrée',
+                                    l10n.historiqueScreen_delivered,
                                     style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colors.success),
                                   ),
                                 ),

@@ -77,5 +77,9 @@
   "enCoursScreen_locationDenied": "Ruhusa ya eneo imekataliwa.",
   "enCoursScreen_cantOpenMaps": "Imeshindwa kufungua Google Maps.",
   "enCoursScreen_openInMaps": "Fungua kwenye Google Maps",
-  "enCoursScreen_arrivedButton": "Nimefika"
+  "enCoursScreen_arrivedButton": "Nimefika",
+  "historiqueScreen_sessionExpired": "Kikao kimeisha.",
+  "historiqueScreen_noDeliveries": "Hakuna utoaji uliokamilika katika siku 4 zilizopita.",
+  "historiqueScreen_orderNumber": "Agizo #{orderNumber}",
+  "historiqueScreen_delivered": "Imetolewa"
 }

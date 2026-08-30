@@ -77,5 +77,9 @@
   "enCoursScreen_locationDenied": "Location permission denied.",
   "enCoursScreen_cantOpenMaps": "Unable to open Google Maps.",
   "enCoursScreen_openInMaps": "Open in Google Maps",
-  "enCoursScreen_arrivedButton": "I've arrived"
+  "enCoursScreen_arrivedButton": "I've arrived",
+  "historiqueScreen_sessionExpired": "Session expired.",
+  "historiqueScreen_noDeliveries": "No deliveries completed in the last 4 days.",
+  "historiqueScreen_orderNumber": "Order #{orderNumber}",
+  "historiqueScreen_delivered": "Delivered"
 }

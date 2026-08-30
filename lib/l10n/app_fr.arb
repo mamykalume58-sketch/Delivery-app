@@ -102,5 +102,14 @@
     "placeholders": {
       "orderNumber": {}
     }
+  },
+  "historiqueScreen_sessionExpired": "Session expirée.",
+  "historiqueScreen_noDeliveries": "Aucune livraison terminée dans les 4 derniers jours.",
+  "historiqueScreen_orderNumber": "Commande #{orderNumber}",
+  "historiqueScreen_delivered": "Livrée",
+  "@historiqueScreen_orderNumber": {
+    "placeholders": {
+      "orderNumber": {}
+    }
   }
 }
