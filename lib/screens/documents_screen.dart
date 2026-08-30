@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../models/driver_model.dart';
+import '../l10n/app_localizations.dart';
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({super.key});
@@ -20,6 +21,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   Future<void> _pickAndUpload(ImageSource source) async {
     final uid = AuthService().currentUser?.uid;
     if (uid == null) return;
+    final l10n = AppLocalizations.of(context)!;
 
     final picker = ImagePicker();
     final picked = await picker.pickImage(
@@ -37,7 +39,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Erreur lors de l'envoi du document. Réessaie.")),
+          SnackBar(content: Text(l10n.documentsScreen_uploadError)),
         );
       }
     } finally {
@@ -45,7 +47,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     }
   }
 
-  void _showSourcePicker(AppColors colors) {
+  void _showSourcePicker(AppColors colors, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
       backgroundColor: colors.surface,
@@ -55,7 +57,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           children: [
             ListTile(
               leading: Icon(Icons.photo_camera_outlined, color: colors.interface),
-              title: Text('Prendre une photo', style: TextStyle(color: colors.primary)),
+              title: Text(l10n.documentsScreen_takePhoto, style: TextStyle(color: colors.primary)),
               onTap: () {
                 Navigator.pop(context);
                 _pickAndUpload(ImageSource.camera);
@@ -63,7 +65,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             ListTile(
               leading: Icon(Icons.photo_library_outlined, color: colors.interface),
-              title: Text('Choisir depuis la galerie', style: TextStyle(color: colors.primary)),
+              title: Text(l10n.documentsScreen_chooseFromGallery, style: TextStyle(color: colors.primary)),
               onTap: () {
                 Navigator.pop(context);
                 _pickAndUpload(ImageSource.gallery);
@@ -91,6 +93,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -98,11 +101,11 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Documents', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.documentsScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null
-          ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.historiqueScreen_sessionExpired, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<DriverModel>(
               stream: DriverService().watchDriver(uid).map(DriverModel.fromDoc),
               builder: (context, snapshot) {
@@ -118,12 +121,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Pièce d'identité",
+                        l10n.documentsScreen_idDocument,
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "Une photo claire et lisible de votre pièce d'identité.",
+                        l10n.documentsScreen_idDocumentHint,
                         style: TextStyle(fontSize: 13, color: colors.textGrey),
                       ),
                       const SizedBox(height: 16),
@@ -147,12 +150,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: _uploading ? null : () => _showSourcePicker(colors),
+                          onPressed: _uploading ? null : () => _showSourcePicker(colors, l10n),
                           icon: _uploading
                               ? SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: colors.interface))
                               : Icon(Icons.upload_outlined, color: colors.interface),
                           label: Text(
-                            image == null ? 'Ajouter le document' : 'Remplacer le document',
+                            image == null ? l10n.documentsScreen_addDocument : l10n.documentsScreen_replaceDocument,
                             style: TextStyle(color: colors.interface),
                           ),
                           style: OutlinedButton.styleFrom(

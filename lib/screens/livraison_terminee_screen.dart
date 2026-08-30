@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../models/order_model.dart';
+import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 
 class LivraisonTermineeScreen extends StatelessWidget {
@@ -11,6 +12,7 @@ class LivraisonTermineeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -31,12 +33,12 @@ class LivraisonTermineeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                'Livraison confirmée !',
+                l10n.livraisonTermineeScreen_confirmed,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: colors.primary),
               ),
               const SizedBox(height: 6),
               Text(
-                'Merci pour votre excellent travail.',
+                l10n.livraisonTermineeScreen_thanks,
                 style: TextStyle(fontSize: 13, color: colors.textGrey),
               ),
               const SizedBox(height: 28),
@@ -50,13 +52,13 @@ class LivraisonTermineeScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _detailRow('Commande', '#${order.orderNumber}', colors),
+                    _detailRow(l10n.livraisonTermineeScreen_order, '#${order.orderNumber}', colors),
                     const SizedBox(height: 10),
-                    _detailRow('Client', order.clientName, colors),
+                    _detailRow(l10n.livraisonTermineeScreen_client, order.clientName, colors),
                     const SizedBox(height: 10),
-                    _detailRow('Montant', '${order.total} FC', colors),
+                    _detailRow(l10n.livraisonTermineeScreen_amount, '${order.total} FC', colors),
                     const SizedBox(height: 10),
-                    _detailRow('Paiement', order.paymentMethod, colors),
+                    _detailRow(l10n.livraisonTermineeScreen_payment, order.paymentMethod, colors),
                   ],
                 ),
               ),
@@ -76,7 +78,7 @@ class LivraisonTermineeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text('Terminer', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+                  child: Text(l10n.livraisonTermineeScreen_finish, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
                 ),
               ),
             ],

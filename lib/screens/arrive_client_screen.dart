@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_colors.dart';
 import '../models/order_model.dart';
 import '../services/order_service.dart';
+import '../l10n/app_localizations.dart';
 import 'verification_screen.dart';
 
 class ArriveClientScreen extends StatefulWidget {
@@ -46,6 +47,7 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final order = widget.order;
 
     return Scaffold(
@@ -54,7 +56,7 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
         backgroundColor: colors.surface,
         elevation: 0,
         title: Text(
-          'Commande #${order.orderNumber}',
+          l10n.historiqueScreen_orderNumber(order.orderNumber),
           style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17),
         ),
         iconTheme: IconThemeData(color: colors.primary),
@@ -78,14 +80,14 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
             const SizedBox(height: 16),
             Center(
               child: Text(
-                'Vous êtes arrivé',
+                l10n.arriveClientScreen_youArrived,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.primary),
               ),
             ),
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Vérifiez la commande avec le client avant de procéder à la livraison.',
+                l10n.arriveClientScreen_verifyMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 13, color: colors.textGrey),
               ),
@@ -102,7 +104,7 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Client', style: TextStyle(fontSize: 12, color: colors.textGrey)),
+                  Text(l10n.livraisonTermineeScreen_client, style: TextStyle(fontSize: 12, color: colors.textGrey)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -119,7 +121,7 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Text('Adresse', style: TextStyle(fontSize: 12, color: colors.textGrey)),
+                  Text(l10n.arriveClientScreen_address, style: TextStyle(fontSize: 12, color: colors.textGrey)),
                   const SizedBox(height: 4),
                   Text(
                     '${order.address}, ${order.city}',
@@ -140,9 +142,9 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
                 ),
                 child: _loading
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                    : const Text(
-                        'Vérifier la commande',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    : Text(
+                        l10n.arriveClientScreen_verifyOrder,
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
                       ),
               ),
             ),
