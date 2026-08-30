@@ -91,5 +91,16 @@
   "profilScreen_plate": "Plaque",
   "profilScreen_editProfile": "Modifier le profil",
   "profilScreen_documents": "Documents",
-  "profilScreen_helpSupport": "Aide & Support"
+  "profilScreen_helpSupport": "Aide & Support",
+  "enCoursScreen_orderTitle": "Commande #{orderNumber}",
+  "enCoursScreen_enableLocation": "Active la localisation du téléphone.",
+  "enCoursScreen_locationDenied": "Permission de localisation refusée.",
+  "enCoursScreen_cantOpenMaps": "Impossible d'ouvrir Google Maps.",
+  "enCoursScreen_openInMaps": "Ouvrir dans Google Maps",
+  "enCoursScreen_arrivedButton": "J'y suis arrivé",
+  "@enCoursScreen_orderTitle": {
+    "placeholders": {
+      "orderNumber": {}
+    }
+  }
 }

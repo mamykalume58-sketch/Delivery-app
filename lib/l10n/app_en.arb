@@ -71,5 +71,11 @@
   "profilScreen_plate": "Plate",
   "profilScreen_editProfile": "Edit profile",
   "profilScreen_documents": "Documents",
-  "profilScreen_helpSupport": "Help & Support"
+  "profilScreen_helpSupport": "Help & Support",
+  "enCoursScreen_orderTitle": "Order #{orderNumber}",
+  "enCoursScreen_enableLocation": "Enable phone location.",
+  "enCoursScreen_locationDenied": "Location permission denied.",
+  "enCoursScreen_cantOpenMaps": "Unable to open Google Maps.",
+  "enCoursScreen_openInMaps": "Open in Google Maps",
+  "enCoursScreen_arrivedButton": "I've arrived"
 }

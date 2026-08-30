@@ -71,5 +71,11 @@
   "profilScreen_plate": "Bamba",
   "profilScreen_editProfile": "Hariri wasifu",
   "profilScreen_documents": "Nyaraka",
-  "profilScreen_helpSupport": "Msaada"
+  "profilScreen_helpSupport": "Msaada",
+  "enCoursScreen_orderTitle": "Agizo #{orderNumber}",
+  "enCoursScreen_enableLocation": "Washa eneo la simu.",
+  "enCoursScreen_locationDenied": "Ruhusa ya eneo imekataliwa.",
+  "enCoursScreen_cantOpenMaps": "Imeshindwa kufungua Google Maps.",
+  "enCoursScreen_openInMaps": "Fungua kwenye Google Maps",
+  "enCoursScreen_arrivedButton": "Nimefika"
 }

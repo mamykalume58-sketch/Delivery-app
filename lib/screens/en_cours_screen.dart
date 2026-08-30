@@ -13,6 +13,7 @@ import '../services/order_service.dart';
 import '../services/driver_service.dart';
 import '../models/order_model.dart';
 import 'arrive_client_screen.dart';
+import '../l10n/app_localizations.dart';
 
 class EnCoursScreen extends StatefulWidget {
   final OrderModel order;
@@ -43,9 +44,10 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
   }
 
   Future<void> _startTracking() async {
+    final l10n = AppLocalizations.of(context)!;
     final enabled = await Geolocator.isLocationServiceEnabled();
     if (!enabled) {
-      setState(() => _error = 'Active la localisation du téléphone.');
+      setState(() => _error = l10n.enCoursScreen_enableLocation);
       return;
     }
 
@@ -54,7 +56,7 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
       permission = await Geolocator.requestPermission();
     }
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-      setState(() => _error = 'Permission de localisation refusée.');
+      setState(() => _error = l10n.enCoursScreen_locationDenied);
       return;
     }
 
@@ -105,7 +107,7 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Impossible d\'ouvrir Google Maps.')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.enCoursScreen_cantOpenMaps)),
         );
       }
     }
@@ -133,13 +135,14 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Commande #${widget.order.orderNumber}', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.enCoursScreen_orderTitle(widget.order.orderNumber), style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: Column(
@@ -240,7 +243,7 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
                       child: OutlinedButton.icon(
                         onPressed: _openInGoogleMaps,
                         icon: Icon(Icons.map_outlined, color: colors.interface),
-                        label: Text('Ouvrir dans Google Maps', style: TextStyle(color: colors.interface)),
+                        label: Text(l10n.enCoursScreen_openInMaps, style: TextStyle(color: colors.interface)),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: colors.interface),
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -260,7 +263,7 @@ class _EnCoursScreenState extends State<EnCoursScreen> {
                         ),
                         child: _updatingStatus
                             ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                            : const Text("J'y suis arrivé", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+                            : Text(l10n.enCoursScreen_arrivedButton, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
                       ),
                     ),
                   ],
