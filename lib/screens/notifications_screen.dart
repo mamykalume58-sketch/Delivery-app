@@ -4,6 +4,7 @@ import '../services/auth_service.dart';
 import '../services/notification_service.dart';
 import '../services/order_service.dart';
 import '../models/notification_model.dart';
+import '../l10n/app_localizations.dart';
 import 'order_detail_screen.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -28,19 +29,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<void> _confirmDeleteAll(String uid) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Tout supprimer ?'),
-        content: const Text('Toutes tes notifications seront définitivement supprimées.'),
+        title: Text(l10n.notificationsScreen_deleteAllTitle),
+        content: Text(l10n.notificationsScreen_deleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Annuler'),
+            child: Text(l10n.profilScreen_cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Supprimer', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.notificationsScreen_delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -52,6 +54,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Future<void> _openOrder(NotificationModel notif) async {
     if (_openingOrder) return;
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _openingOrder = true);
     try {
       final order = await OrderService().watchOrder(notif.orderId).first;
@@ -64,7 +67,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Impossible d'ouvrir cette commande.")),
+          SnackBar(content: Text(l10n.notificationsScreen_cantOpenOrder)),
         );
       }
     } finally {
@@ -75,6 +78,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -82,18 +86,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Notifications', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.notificationsScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
         actions: [
           if (uid != null)
             TextButton(
               onPressed: () => _confirmDeleteAll(uid),
-              child: Text('Tout supprimer', style: TextStyle(color: colors.error, fontSize: 13)),
+              child: Text(l10n.notificationsScreen_deleteAll, style: TextStyle(color: colors.error, fontSize: 13)),
             ),
         ],
       ),
       body: uid == null || _notificationsStream == null
-          ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.historiqueScreen_sessionExpired, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<NotificationModel>>(
               stream: _notificationsStream,
               builder: (context, snapshot) {
@@ -111,7 +115,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           Icon(Icons.notifications_none_rounded, size: 56, color: colors.textGrey),
                           const SizedBox(height: 16),
                           Text(
-                            "Aucune notification pour le moment.",
+                            l10n.notificationsScreen_noNotifications,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: colors.textGrey, fontSize: 14),
                           ),

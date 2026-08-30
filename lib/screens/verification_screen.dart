@@ -3,6 +3,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../theme/app_colors.dart';
 import '../models/order_model.dart';
 import '../services/order_service.dart';
+import '../l10n/app_localizations.dart';
 import 'livraison_terminee_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -52,6 +53,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final digits = widget.verificationCode.split('');
 
     return Scaffold(
@@ -59,7 +61,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Vérification', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.verificationScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: StreamBuilder<OrderModel>(
@@ -74,7 +76,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             child: Column(
               children: [
                 Text(
-                  'Montrez le QR Code et demandez au client le PIN pour confirmer.',
+                  l10n.verificationScreen_instructions,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13, color: colors.textGrey),
                 ),
@@ -88,7 +90,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                   child: Column(
                     children: [
-                      Text('QR Code de la commande', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+                      Text(l10n.verificationScreen_qrCodeLabel, style: TextStyle(fontSize: 13, color: colors.textGrey)),
                       const SizedBox(height: 16),
                       QrImageView(
                         data: order.id,
@@ -114,7 +116,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                   child: Column(
                     children: [
-                      Text('PIN unique', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+                      Text(l10n.verificationScreen_pinLabel, style: TextStyle(fontSize: 13, color: colors.textGrey)),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +129,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Le client doit vous donner ce PIN',
+                        l10n.verificationScreen_pinInstructions,
                         style: TextStyle(fontSize: 12, color: colors.textGrey),
                       ),
                     ],
@@ -136,7 +138,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 const SizedBox(height: 24),
                 TextButton(
                   onPressed: () {},
-                  child: Text('Aide / Problème', style: TextStyle(color: colors.interface)),
+                  child: Text(l10n.verificationScreen_helpProblem, style: TextStyle(color: colors.interface)),
                 ),
               ],
             ),

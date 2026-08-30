@@ -103,5 +103,18 @@
   "aideSupportScreen_faq4Q": "When do I get paid for my deliveries?",
   "aideSupportScreen_faq4A": "Your earnings are visible in the \"Earnings\" tab. Payment details and frequency will be communicated to you by support.",
   "aideSupportScreen_faq5Q": "I can't enable my location, what should I do?",
-  "aideSupportScreen_faq5A": "Check that location is enabled in your phone settings, and that the app has permission to access it. Restart the app if needed."
+  "aideSupportScreen_faq5A": "Check that location is enabled in your phone settings, and that the app has permission to access it. Restart the app if needed.",
+  "notificationsScreen_title": "Notifications",
+  "notificationsScreen_deleteAll": "Delete all",
+  "notificationsScreen_deleteAllTitle": "Delete all?",
+  "notificationsScreen_deleteAllMessage": "All your notifications will be permanently deleted.",
+  "notificationsScreen_delete": "Delete",
+  "notificationsScreen_cantOpenOrder": "Unable to open this order.",
+  "notificationsScreen_noNotifications": "No notifications yet.",
+  "verificationScreen_title": "Verification",
+  "verificationScreen_instructions": "Show the QR Code and ask the customer for the PIN to confirm.",
+  "verificationScreen_qrCodeLabel": "Order QR Code",
+  "verificationScreen_pinLabel": "Unique PIN",
+  "verificationScreen_pinInstructions": "The customer must give you this PIN",
+  "verificationScreen_helpProblem": "Help / Problem"
 }

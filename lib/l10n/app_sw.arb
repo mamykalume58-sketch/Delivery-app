@@ -103,5 +103,18 @@
   "aideSupportScreen_faq4Q": "Ni lini nitalipwa kwa utoaji wangu?",
   "aideSupportScreen_faq4A": "Mapato yako yanaonekana kwenye kichupo cha \"Mapato\". Maelezo ya malipo na mzunguko yatakujulishwa na msaada.",
   "aideSupportScreen_faq5Q": "Siwezi kuwasha eneo langu, nifanye nini?",
-  "aideSupportScreen_faq5A": "Hakikisha eneo limewashwa kwenye mipangilio ya simu yako, na kwamba programu ina ruhusa ya kuifikia. Anzisha upya programu ikihitajika."
+  "aideSupportScreen_faq5A": "Hakikisha eneo limewashwa kwenye mipangilio ya simu yako, na kwamba programu ina ruhusa ya kuifikia. Anzisha upya programu ikihitajika.",
+  "notificationsScreen_title": "Arifa",
+  "notificationsScreen_deleteAll": "Futa zote",
+  "notificationsScreen_deleteAllTitle": "Futa zote?",
+  "notificationsScreen_deleteAllMessage": "Arifa zako zote zitafutwa kabisa.",
+  "notificationsScreen_delete": "Futa",
+  "notificationsScreen_cantOpenOrder": "Imeshindwa kufungua agizo hili.",
+  "notificationsScreen_noNotifications": "Hakuna arifa kwa sasa.",
+  "verificationScreen_title": "Uthibitisho",
+  "verificationScreen_instructions": "Onyesha QR Code na muombe mteja PIN ili kuthibitisha.",
+  "verificationScreen_qrCodeLabel": "QR Code ya agizo",
+  "verificationScreen_pinLabel": "PIN ya kipekee",
+  "verificationScreen_pinInstructions": "Mteja lazima akupe PIN hii",
+  "verificationScreen_helpProblem": "Msaada / Tatizo"
 }
