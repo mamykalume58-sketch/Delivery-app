@@ -20,8 +20,9 @@ class _ArriveClientScreenState extends State<ArriveClientScreen> {
   bool _loading = false;
 
   Future<void> _callClient() async {
-    final url = Uri.parse('tel:${widget.order.clientPhone}');
-    await launchUrl(url);
+    final cleanPhone = widget.order.clientPhone.replaceAll(RegExp(r'[^0-9]'), '');
+    final url = Uri.parse('https://wa.me/$cleanPhone');
+    await launchUrl(url, mode: LaunchMode.externalApplication);
   }
 
   Future<void> _verifierCommande() async {

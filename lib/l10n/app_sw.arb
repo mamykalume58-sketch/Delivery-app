@@ -20,7 +20,7 @@
   "registerScreen_nameRequired": "Jina linahitajika",
   "registerScreen_emailLabel": "Barua pepe",
   "registerScreen_emailInvalid": "Barua pepe si sahihi",
-  "registerScreen_phoneLabel": "Nambari ya simu",
+  "registerScreen_phoneLabel": "Nambari ya WhatsApp",
   "registerScreen_phoneRequired": "Simu inahitajika",
   "registerScreen_passwordLabel": "Nywila",
   "registerScreen_passwordMinLength": "Angalau herufi 6",

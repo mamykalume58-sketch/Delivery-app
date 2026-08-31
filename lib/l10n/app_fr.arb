@@ -20,7 +20,7 @@
   "registerScreen_nameRequired": "Nom requis",
   "registerScreen_emailLabel": "Email",
   "registerScreen_emailInvalid": "Email invalide",
-  "registerScreen_phoneLabel": "Numéro de téléphone",
+  "registerScreen_phoneLabel": "Numéro WhatsApp",
   "registerScreen_phoneRequired": "Téléphone requis",
   "registerScreen_passwordLabel": "Mot de passe",
   "registerScreen_passwordMinLength": "6 caractères minimum",
