@@ -135,5 +135,20 @@
   "documentsScreen_idDocument": "ID document",
   "documentsScreen_idDocumentHint": "A clear, readable photo of your ID document.",
   "documentsScreen_addDocument": "Add document",
-  "documentsScreen_replaceDocument": "Replace document"
+  "documentsScreen_replaceDocument": "Replace document",
+  "modifierProfilScreen_title": "Edit profile",
+  "modifierProfilScreen_saveError": "Error while saving. Please try again.",
+  "modifierProfilScreen_name": "Name",
+  "modifierProfilScreen_nameRequired": "Name is required.",
+  "modifierProfilScreen_phoneRequired": "Phone is required.",
+  "modifierProfilScreen_vehicleHint": "E.g: Motorcycle, Bike, Car",
+  "modifierProfilScreen_save": "Save",
+  "nouvelleLivraisonScreen_acceptError": "Error accepting the order. Please try again.",
+  "nouvelleLivraisonScreen_noOrders": "No deliveries assigned right now.",
+  "nouvelleLivraisonScreen_acceptedSuccess": "Successfully accepted",
+  "nouvelleLivraisonScreen_accept": "Accept",
+  "orderDetailScreen_products": "Products",
+  "orderDetailScreen_deliveryFee": "Delivery fee",
+  "orderDetailScreen_total": "Total",
+  "orderDetailScreen_alreadyAccepted": "Order already accepted"
 }

@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/driver_service.dart';
 import '../models/driver_model.dart';
+import '../l10n/app_localizations.dart';
 
 class ModifierProfilScreen extends StatefulWidget {
   final DriverModel driver;
@@ -76,6 +77,7 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
     if (!_formKey.currentState!.validate()) return;
     final uid = AuthService().currentUser?.uid;
     if (uid == null) return;
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() => _saving = true);
     try {
@@ -95,7 +97,7 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de la sauvegarde. Réessaie.')),
+          SnackBar(content: Text(l10n.modifierProfilScreen_saveError)),
         );
       }
     } finally {
@@ -106,6 +108,7 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final avatar = _currentAvatar();
 
     return Scaffold(
@@ -113,7 +116,7 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Modifier le profil', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.modifierProfilScreen_title, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: Form(
@@ -150,31 +153,31 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
               ),
             ),
             const SizedBox(height: 28),
-            Text('Nom', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+            Text(l10n.modifierProfilScreen_name, style: TextStyle(fontSize: 13, color: colors.textGrey)),
             const SizedBox(height: 6),
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Le nom est requis.' : null,
+              validator: (v) => (v == null || v.trim().isEmpty) ? l10n.modifierProfilScreen_nameRequired : null,
             ),
             const SizedBox(height: 16),
-            Text('Téléphone', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+            Text(l10n.profilScreen_phone, style: TextStyle(fontSize: 13, color: colors.textGrey)),
             const SizedBox(height: 6),
             TextFormField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(border: OutlineInputBorder()),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Le téléphone est requis.' : null,
+              validator: (v) => (v == null || v.trim().isEmpty) ? l10n.modifierProfilScreen_phoneRequired : null,
             ),
             const SizedBox(height: 16),
-            Text('Véhicule', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+            Text(l10n.profilScreen_vehicle, style: TextStyle(fontSize: 13, color: colors.textGrey)),
             const SizedBox(height: 6),
             TextFormField(
               controller: _vehicleController,
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Ex: Moto, Vélo, Voiture'),
+              decoration: InputDecoration(border: const OutlineInputBorder(), hintText: l10n.modifierProfilScreen_vehicleHint),
             ),
             const SizedBox(height: 16),
-            Text('Plaque', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+            Text(l10n.profilScreen_plate, style: TextStyle(fontSize: 13, color: colors.textGrey)),
             const SizedBox(height: 6),
             TextFormField(
               controller: _plateController,
@@ -192,7 +195,7 @@ class _ModifierProfilScreenState extends State<ModifierProfilScreen> {
                 ),
                 child: _saving
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                    : const Text('Enregistrer', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+                    : Text(l10n.modifierProfilScreen_save, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
               ),
             ),
           ],

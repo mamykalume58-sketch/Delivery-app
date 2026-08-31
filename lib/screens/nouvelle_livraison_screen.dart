@@ -4,15 +4,9 @@ import '../theme/app_colors.dart';
 import '../services/auth_service.dart';
 import '../services/order_service.dart';
 import '../models/order_model.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/tab_navigation.dart';
-
-const Map<String, String> _statusLabels = {
-  'preparing': 'En préparation',
-  'shipped': 'Expédiée',
-  'in_transit': 'En transit',
-  'out_for_delivery': 'En livraison',
-};
 
 class NouvelleLivraisonScreen extends StatefulWidget {
   const NouvelleLivraisonScreen({super.key});
@@ -27,7 +21,15 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
   final Set<String> _acceptedIds = {};
   final Map<String, OrderModel> _pinnedOrders = {};
 
+  Map<String, String> _statusLabels(AppLocalizations l10n) => {
+        'preparing': l10n.mesLivraisonsScreen_statusPreparing,
+        'shipped': l10n.mesLivraisonsScreen_statusShipped,
+        'in_transit': l10n.mesLivraisonsScreen_statusInTransit,
+        'out_for_delivery': l10n.mesLivraisonsScreen_statusOutForDelivery,
+      };
+
   Future<void> _acceptOrder(OrderModel order) async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _acceptingIds.add(order.id));
     try {
       await _orderService.acceptOrder(order.id);
@@ -48,7 +50,7 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
       if (!mounted) return;
       setState(() => _acceptingIds.remove(order.id));
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Erreur lors de l'acceptation. Réessaie.")),
+        SnackBar(content: Text(l10n.nouvelleLivraisonScreen_acceptError)),
       );
     }
   }
@@ -56,6 +58,8 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
+    final statusLabels = _statusLabels(l10n);
     final uid = AuthService().currentUser?.uid;
 
     return Scaffold(
@@ -63,11 +67,11 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Nouvelle livraison', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.homeScreen_newDelivery, style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: uid == null
-          ? Center(child: Text('Session expirée.', style: TextStyle(color: colors.textGrey)))
+          ? Center(child: Text(l10n.historiqueScreen_sessionExpired, style: TextStyle(color: colors.textGrey)))
           : StreamBuilder<List<OrderModel>>(
               stream: _orderService.watchAssignedOrders(uid),
               builder: (context, snapshot) {
@@ -89,7 +93,7 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                           Icon(Icons.inventory_2_outlined, size: 56, color: colors.textGrey),
                           const SizedBox(height: 16),
                           Text(
-                            "Aucune livraison assignée pour le moment.",
+                            l10n.nouvelleLivraisonScreen_noOrders,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: colors.textGrey, fontSize: 14),
                           ),
@@ -125,14 +129,14 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                                 children: [
                                   Icon(Icons.local_shipping_outlined, color: colors.interface, size: 18),
                                   const SizedBox(width: 8),
-                                  Text('Commande #${order.orderNumber}', style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
+                                  Text(l10n.historiqueScreen_orderNumber(order.orderNumber), style: TextStyle(fontWeight: FontWeight.bold, color: colors.primary, fontSize: 15)),
                                 ],
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(color: colors.interface.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                                 child: Text(
-                                  _statusLabels[order.status] ?? order.status,
+                                  statusLabels[order.status] ?? order.status,
                                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colors.interface),
                                 ),
                               ),
@@ -174,7 +178,7 @@ class _NouvelleLivraisonScreenState extends State<NouvelleLivraisonScreen> {
                               child: isAccepting
                                   ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
                                   : Text(
-                                      isAccepted ? 'Accepté avec succès' : 'Accepter',
+                                      isAccepted ? l10n.nouvelleLivraisonScreen_acceptedSuccess : l10n.nouvelleLivraisonScreen_accept,
                                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                                     ),
                             ),

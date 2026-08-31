@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../models/order_model.dart';
 import '../services/order_service.dart';
+import '../l10n/app_localizations.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final OrderModel order;
@@ -31,6 +32,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Future<void> _accept() async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _accepting = true);
     try {
       await OrderService().acceptOrder(widget.order.id);
@@ -38,7 +40,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Erreur lors de l'acceptation. Réessaie.")),
+          SnackBar(content: Text(l10n.nouvelleLivraisonScreen_acceptError)),
         );
       }
     } finally {
@@ -49,6 +51,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
     final order = widget.order;
     final alreadyAccepted = order.acceptedByDriver || _accepted;
 
@@ -57,7 +60,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       appBar: AppBar(
         backgroundColor: colors.surface,
         elevation: 0,
-        title: Text('Commande #${order.orderNumber}', style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
+        title: Text(l10n.historiqueScreen_orderNumber(order.orderNumber), style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold, fontSize: 17)),
         iconTheme: IconThemeData(color: colors.primary),
       ),
       body: ListView(
@@ -107,7 +110,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Text('Produits', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary)),
+          Text(l10n.orderDetailScreen_products, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colors.primary)),
           const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
@@ -174,7 +177,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Frais de livraison', style: TextStyle(fontSize: 13, color: colors.textGrey)),
+                    Text(l10n.orderDetailScreen_deliveryFee, style: TextStyle(fontSize: 13, color: colors.textGrey)),
                     Text('${order.fraisLivraison} FC', style: TextStyle(fontSize: 13, color: colors.primary)),
                   ],
                 ),
@@ -182,7 +185,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.primary)),
+                    Text(l10n.orderDetailScreen_total, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.primary)),
                     Text('${order.total} FC', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.primary)),
                   ],
                 ),
@@ -202,7 +205,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 ),
                 child: _accepting
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                    : const Text('Accepter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+                    : Text(l10n.nouvelleLivraisonScreen_accept, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
               ),
             )
           else
@@ -214,7 +217,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: Text('Commande déjà acceptée', style: TextStyle(color: colors.success, fontWeight: FontWeight.w600)),
+                child: Text(l10n.orderDetailScreen_alreadyAccepted, style: TextStyle(color: colors.success, fontWeight: FontWeight.w600)),
               ),
             ),
         ],

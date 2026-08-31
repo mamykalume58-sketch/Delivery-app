@@ -135,5 +135,20 @@
   "documentsScreen_idDocument": "Kitambulisho",
   "documentsScreen_idDocumentHint": "Picha wazi na inayosomeka ya kitambulisho chako.",
   "documentsScreen_addDocument": "Ongeza nyaraka",
-  "documentsScreen_replaceDocument": "Badilisha nyaraka"
+  "documentsScreen_replaceDocument": "Badilisha nyaraka",
+  "modifierProfilScreen_title": "Hariri wasifu",
+  "modifierProfilScreen_saveError": "Hitilafu wakati wa kuhifadhi. Jaribu tena.",
+  "modifierProfilScreen_name": "Jina",
+  "modifierProfilScreen_nameRequired": "Jina linahitajika.",
+  "modifierProfilScreen_phoneRequired": "Simu inahitajika.",
+  "modifierProfilScreen_vehicleHint": "Mfano: Pikipiki, Baiskeli, Gari",
+  "modifierProfilScreen_save": "Hifadhi",
+  "nouvelleLivraisonScreen_acceptError": "Hitilafu wakati wa kukubali. Jaribu tena.",
+  "nouvelleLivraisonScreen_noOrders": "Hakuna utoaji uliopewa kwa sasa.",
+  "nouvelleLivraisonScreen_acceptedSuccess": "Imekubaliwa kwa mafanikio",
+  "nouvelleLivraisonScreen_accept": "Kubali",
+  "orderDetailScreen_products": "Bidhaa",
+  "orderDetailScreen_deliveryFee": "Ada ya utoaji",
+  "orderDetailScreen_total": "Jumla",
+  "orderDetailScreen_alreadyAccepted": "Agizo limekwisha kubaliwa"
 }
