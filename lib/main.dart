@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,6 +40,16 @@ Future<void> _handleNotificationTap(RemoteMessage message) async {
       MaterialPageRoute(builder: (_) => OrderDetailScreen(order: order)),
     );
   }
+}
+
+/// Quand le mode est "Système", on ne se fie pas au réglage Android (peu
+/// fiable sur certains téléphones avec programmation horaire), mais on
+/// calcule nous-mêmes le thème selon l'heure locale : 6h-18h = clair,
+/// le reste = sombre.
+ThemeMode _effectiveThemeMode(ThemeMode mode) {
+  if (mode != ThemeMode.system) return mode;
+  final hour = DateTime.now().hour;
+  return (hour >= 6 && hour < 18) ? ThemeMode.light : ThemeMode.dark;
 }
 
 Future<void> main() async {
@@ -94,8 +105,31 @@ Future<void> main() async {
   runApp(const DavidStoreDriverApp());
 }
 
-class DavidStoreDriverApp extends StatelessWidget {
+class DavidStoreDriverApp extends StatefulWidget {
   const DavidStoreDriverApp({super.key});
+
+  @override
+  State<DavidStoreDriverApp> createState() => _DavidStoreDriverAppState();
+}
+
+class _DavidStoreDriverAppState extends State<DavidStoreDriverApp> {
+  Timer? _dayNightTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Revérifie toutes les minutes si l'heure a basculé jour/nuit, pour que
+    // le mode "Système" change automatiquement sans redémarrer l'app.
+    _dayNightTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _dayNightTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +145,7 @@ class DavidStoreDriverApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
-              themeMode: themeMode,
+              themeMode: _effectiveThemeMode(themeMode),
               locale: locale,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
