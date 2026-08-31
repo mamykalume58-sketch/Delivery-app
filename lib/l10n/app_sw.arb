@@ -150,5 +150,11 @@
   "orderDetailScreen_products": "Bidhaa",
   "orderDetailScreen_deliveryFee": "Ada ya utoaji",
   "orderDetailScreen_total": "Jumla",
-  "orderDetailScreen_alreadyAccepted": "Agizo limekwisha kubaliwa"
+  "orderDetailScreen_alreadyAccepted": "Agizo limekwisha kubaliwa",
+  "updateDialog_title": "Sasisha Delivery App",
+  "updateDialog_versionSize": "Toleo {version} • {size}",
+  "updateDialog_defaultMessage": "Toleo jipya la Delivery App linapatikana. Unaweza kulipakua sasa.",
+  "updateDialog_downloadNow": "Pakua sasa",
+  "updateDialog_remindLater": "Nikumbushe baadaye",
+  "updateDialog_downloadFailed": "Upakuaji umeshindwa: {error}"
 }

@@ -180,5 +180,22 @@
   "orderDetailScreen_products": "Produits",
   "orderDetailScreen_deliveryFee": "Frais de livraison",
   "orderDetailScreen_total": "Total",
-  "orderDetailScreen_alreadyAccepted": "Commande déjà acceptée"
+  "orderDetailScreen_alreadyAccepted": "Commande déjà acceptée",
+  "updateDialog_title": "Mettre à jour Delivery App",
+  "updateDialog_versionSize": "Version {version} • {size}",
+  "updateDialog_defaultMessage": "Une nouvelle version de Delivery App est disponible. Vous pouvez la télécharger maintenant.",
+  "updateDialog_downloadNow": "Télécharger maintenant",
+  "updateDialog_remindLater": "Me le rappeler plus tard",
+  "updateDialog_downloadFailed": "Échec du téléchargement : {error}",
+  "@updateDialog_versionSize": {
+    "placeholders": {
+      "version": {},
+      "size": {}
+    }
+  },
+  "@updateDialog_downloadFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  }
 }

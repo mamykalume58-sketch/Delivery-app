@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../services/update_download_service.dart';
 import '../services/version_service.dart';
+import '../l10n/app_localizations.dart';
 
 /// Affiche le bottom sheet de mise à jour (style Telegram) et gère le
 /// téléchargement + installation directement depuis l'app.
@@ -33,6 +34,7 @@ class _UpdateSheetState extends State<_UpdateSheet> {
   double _progress = 0;
 
   Future<void> _startDownload() async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _downloading = true);
     try {
       final file = await _downloadService.downloadApk(
@@ -43,7 +45,7 @@ class _UpdateSheetState extends State<_UpdateSheet> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Échec du téléchargement : $e')),
+        SnackBar(content: Text(l10n.updateDialog_downloadFailed(e.toString()))),
       );
       setState(() => _downloading = false);
     }
@@ -57,6 +59,7 @@ class _UpdateSheetState extends State<_UpdateSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
 
     return PopScope(
       canPop: !widget.info.forceUpdate,
@@ -81,21 +84,21 @@ class _UpdateSheetState extends State<_UpdateSheet> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Mettre à jour Delivery App',
+              l10n.updateDialog_title,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 19, fontWeight: FontWeight.bold, color: colors.primary),
             ),
             const SizedBox(height: 6),
             Text(
-              'Version ${widget.info.latestVersionName} • $_sizeLabel',
+              l10n.updateDialog_versionSize(widget.info.latestVersionName, _sizeLabel),
               style: TextStyle(fontSize: 13, color: colors.textGrey),
             ),
             const SizedBox(height: 16),
             Text(
               widget.info.message?.isNotEmpty == true
                   ? widget.info.message!
-                  : 'Une nouvelle version de Delivery App est disponible. Vous pouvez la télécharger maintenant.',
+                  : l10n.updateDialog_defaultMessage,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: colors.textGrey, height: 1.4),
             ),
@@ -125,9 +128,9 @@ class _UpdateSheetState extends State<_UpdateSheet> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: const Text(
-                    'Télécharger maintenant',
-                    style: TextStyle(
+                  child: Text(
+                    l10n.updateDialog_downloadNow,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                         fontSize: 15),
@@ -138,7 +141,7 @@ class _UpdateSheetState extends State<_UpdateSheet> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('Me le rappeler plus tard',
+                child: Text(l10n.updateDialog_remindLater,
                     style: TextStyle(color: colors.interface)),
               ),
             ],

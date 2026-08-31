@@ -150,5 +150,11 @@
   "orderDetailScreen_products": "Products",
   "orderDetailScreen_deliveryFee": "Delivery fee",
   "orderDetailScreen_total": "Total",
-  "orderDetailScreen_alreadyAccepted": "Order already accepted"
+  "orderDetailScreen_alreadyAccepted": "Order already accepted",
+  "updateDialog_title": "Update Delivery App",
+  "updateDialog_versionSize": "Version {version} • {size}",
+  "updateDialog_defaultMessage": "A new version of Delivery App is available. You can download it now.",
+  "updateDialog_downloadNow": "Download now",
+  "updateDialog_remindLater": "Remind me later",
+  "updateDialog_downloadFailed": "Download failed: {error}"
 }
