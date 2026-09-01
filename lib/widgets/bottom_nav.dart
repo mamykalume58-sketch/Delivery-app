@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../l10n/app_localizations.dart';
 
 /// Barre de navigation basse fixe : Accueil / Carte / Gains / Profil
 /// [currentIndex] : 0=Accueil, 1=Carte, 2=Gains, 3=Profil
@@ -13,16 +14,18 @@ class BottomNav extends StatelessWidget {
     this.onTap,
   });
 
-  static const List<_NavItemData> _items = [
-    _NavItemData(icon: Icons.home_rounded, label: 'Accueil'),
-    _NavItemData(icon: Icons.map_rounded, label: 'Carte'),
-    _NavItemData(icon: Icons.account_balance_wallet_rounded, label: 'Gains'),
-    _NavItemData(icon: Icons.person_rounded, label: 'Profil'),
-  ];
+  List<_NavItemData> _items(AppLocalizations l10n) => [
+        _NavItemData(icon: Icons.home_rounded, label: l10n.navAccueil),
+        _NavItemData(icon: Icons.map_rounded, label: l10n.navCarte),
+        _NavItemData(icon: Icons.account_balance_wallet_rounded, label: l10n.navGains),
+        _NavItemData(icon: Icons.person_rounded, label: l10n.navProfil),
+      ];
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = AppLocalizations.of(context)!;
+    final items = _items(l10n);
 
     return Container(
       decoration: BoxDecoration(
@@ -41,8 +44,8 @@ class BottomNav extends StatelessWidget {
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(_items.length, (index) {
-              final item = _items[index];
+            children: List.generate(items.length, (index) {
+              final item = items[index];
               final bool active = index == currentIndex;
               final Color color = active ? colors.interface : colors.textGrey;
 
